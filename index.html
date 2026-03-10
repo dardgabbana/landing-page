@@ -89,7 +89,7 @@
     }
 
     .hero {
-      padding: 12px 24px 8px;
+      padding: 12px 24px 20px;
     }
 
     .hero-kicker {
@@ -114,40 +114,6 @@
       max-width: 560px;
     }
 
-    .ticker-wrap {
-      width: 100%;
-      overflow: hidden;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      margin-top: 10px;
-      margin-bottom: 24px;
-    }
-
-    .ticker {
-      display: flex;
-      width: max-content;
-      animation: tickerMove 24s linear infinite;
-    }
-
-    .ticker span {
-      display: inline-block;
-      padding: 11px 28px;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65);
-      white-space: nowrap;
-    }
-
-    @keyframes tickerMove {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-50%);
-      }
-    }
-
     .filmstrip-section {
       padding: 6px 0 70px;
     }
@@ -162,7 +128,7 @@
       align-items: flex-start;
       gap: 24px;
       width: max-content;
-      animation: filmstripMove 34s linear infinite;
+      animation: filmstripMove 20s linear infinite;
       padding: 0 24px;
     }
 
@@ -227,7 +193,7 @@
       }
 
       .filmstrip {
-        animation-duration: 26s;
+        animation-duration: 16s;
       }
 
       .video-card {
@@ -241,17 +207,12 @@
       }
 
       .hero {
-        padding: 12px 14px 8px;
+        padding: 12px 14px 14px;
       }
 
       .nav {
         gap: 10px;
         font-size: 0.64rem;
-      }
-
-      .ticker span {
-        padding: 10px 18px;
-        font-size: 0.62rem;
       }
 
       .filmstrip {
@@ -297,25 +258,12 @@
     </p>
   </section>
 
-  <div class="ticker-wrap">
-    <div class="ticker">
-      <span>Project One / Exodia FX</span>
-      <span>Project Two / Exodia FX</span>
-      <span>Project Three / Exodia FX</span>
-      <span>Project Four / Exodia FX</span>
-      <span>Project One / Exodia FX</span>
-      <span>Project Two / Exodia FX</span>
-      <span>Project Three / Exodia FX</span>
-      <span>Project Four / Exodia FX</span>
-    </div>
-  </div>
-
   <section class="filmstrip-section" id="work">
     <div class="filmstrip-outer">
       <div class="filmstrip">
         <article class="video-card">
           <div class="video-frame">
-            <video src="1v.mp4" muted playsinline loop></video>
+            <video src="1v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>01 / Project One</span>
@@ -325,7 +273,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="2v.mp4" muted playsinline loop></video>
+            <video src="2v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>02 / Project Two</span>
@@ -335,7 +283,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="3v.mp4" muted playsinline loop></video>
+            <video src="3v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>03 / Project Three</span>
@@ -345,7 +293,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="4v.mp4" muted playsinline loop></video>
+            <video src="4v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>04 / Project Four</span>
@@ -355,7 +303,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="1v.mp4" muted playsinline loop></video>
+            <video src="1v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>01 / Project One</span>
@@ -365,7 +313,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="2v.mp4" muted playsinline loop></video>
+            <video src="2v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>02 / Project Two</span>
@@ -375,7 +323,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="3v.mp4" muted playsinline loop></video>
+            <video src="3v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>03 / Project Three</span>
@@ -385,7 +333,7 @@
 
         <article class="video-card">
           <div class="video-frame">
-            <video src="4v.mp4" muted playsinline loop></video>
+            <video src="4v.mp4" muted autoplay playsinline loop></video>
           </div>
           <div class="video-meta">
             <span>04 / Project Four</span>
@@ -403,8 +351,6 @@
   <script>
     const cursorGlow = document.querySelector(".cursor-glow");
     const videos = document.querySelectorAll("video");
-    const filmstrip = document.querySelector(".filmstrip");
-    const cards = document.querySelectorAll(".video-card");
 
     document.addEventListener("mousemove", (e) => {
       if (cursorGlow) {
@@ -413,31 +359,9 @@
       }
     });
 
-    cards.forEach((card) => {
-      card.addEventListener("mouseenter", () => {
-        filmstrip.style.animationPlayState = "paused";
-      });
-
-      card.addEventListener("mouseleave", () => {
-        filmstrip.style.animationPlayState = "running";
-      });
-    });
-
     videos.forEach((video) => {
-      video.addEventListener("mouseenter", () => {
-        videos.forEach((otherVideo) => {
-          if (otherVideo !== video) {
-            otherVideo.pause();
-            otherVideo.currentTime = 0;
-          }
-        });
-        video.play();
-      });
-
-      video.addEventListener("mouseleave", () => {
-        video.pause();
-        video.currentTime = 0;
-      });
+      video.muted = true;
+      video.play().catch(() => {});
     });
   </script>
 </body>
