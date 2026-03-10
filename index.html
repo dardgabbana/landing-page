@@ -4,24 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exodia Video FX Showcase</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        video {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        video:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
     <h1>Exodia Video FX Showcase</h1>
-    <video width="320" height="240" controls>
-        <source src="1v.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video width="320" height="240" controls>
-        <source src="2v.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video width="320" height="240" controls>
-        <source src="3v.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <video width="320" height="240" controls>
-        <source src="4v.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="container">
+        <video controls>
+            <source src="1v.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video controls>
+            <source src="2v.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video controls>
+            <source src="3v.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video controls>
+            <source src="4v.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 </body>
 </html>
