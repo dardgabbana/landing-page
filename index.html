@@ -3,50 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exodia Video FX Showcase</title>
+    <title>Lyrical Lemonade Inspired Page</title>
     <style>
         body {
-            background-color: #111;
-            color: #fff;
-            font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
+            background-color: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
         }
         .container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
             padding: 20px;
+        }
+        .video {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid limegreen;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .video:hover {
+            transform: scale(1.05);
         }
         video {
             width: 100%;
             border-radius: 10px;
-            transition: transform 0.3s;
         }
-        video:hover {
-            transform: scale(1.05);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .full-screen-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.7;
+            animation: fadeIn 1.5s;
         }
     </style>
 </head>
 <body>
-    <h1>Exodia Video FX Showcase</h1>
+    <video class="full-screen-video" autoplay muted loop>
+        <source src="path_to_your_video.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <h1>Lyrical Lemonade Inspired Video Gallery</h1>
     <div class="container">
-        <video controls>
-            <source src="1v.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="2v.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="3v.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="4v.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <div class="video"><video src="video1.mp4" controls></video></div>
+        <div class="video"><video src="video2.mp4" controls></video></div>
+        <div class="video"><video src="video3.mp4" controls></video></div>
+        <div class="video"><video src="video4.mp4" controls></video></div>
     </div>
 </body>
 </html>
