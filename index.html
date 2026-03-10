@@ -1,69 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyrical Lemonade Inspired Page</title>
-    <style>
-        body {
-            margin: 0;
-            background-color: #111;
-            color: white;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 10px;
-            padding: 20px;
-        }
-        .video {
-            position: relative;
-            overflow: hidden;
-            border: 2px solid limegreen;
-            border-radius: 10px;
-            transition: transform 0.3s;
-        }
-        .video:hover {
-            transform: scale(1.05);
-        }
-        video {
-            width: 100%;
-            border-radius: 10px;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .full-screen-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            opacity: 0.7;
-            animation: fadeIn 1.5s;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dard Gabbana | Video Landing Page</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f0f0f;
+color:white;
+line-height:1.6;
+}
+
+.background-video{
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+opacity:0.28;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:linear-gradient(
+to bottom,
+rgba(0,0,0,0.55),
+rgba(0,0,0,0.75)
+);
+z-index:-1;
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:40px 20px;
+}
+
+.hero-content{
+max-width:800px;
+}
+
+.hero h1{
+font-size:clamp(2.2rem,6vw,4.5rem);
+margin-bottom:16px;
+letter-spacing:1px;
+}
+
+.hero p{
+font-size:1.1rem;
+color:#dddddd;
+max-width:650px;
+margin:0 auto 28px;
+}
+
+.hero-buttons{
+display:flex;
+gap:14px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.btn{
+display:inline-block;
+padding:12px 22px;
+border-radius:999px;
+text-decoration:none;
+font-weight:bold;
+transition:0.3s ease;
+}
+
+.btn-primary{
+background:limegreen;
+color:black;
+}
+
+.btn-primary:hover{
+background:#7fff7f;
+transform:translateY(-2px);
+}
+
+.btn-secondary{
+border:2px solid white;
+color:white;
+}
+
+.btn-secondary:hover{
+background:white;
+color:black;
+transform:translateY(-2px);
+}
+
+.section{
+padding:70px 20px;
+}
+
+.section-title{
+text-align:center;
+font-size:2rem;
+margin-bottom:12px;
+}
+
+.section-subtitle{
+text-align:center;
+color:#cfcfcf;
+max-width:700px;
+margin:0 auto 40px;
+}
+
+.container{
+max-width:1200px;
+margin:0 auto;
+}
+
+.video-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.video-card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(50,205,50,0.35);
+border-radius:18px;
+overflow:hidden;
+backdrop-filter:blur(6px);
+transition:transform 0.3s ease,box-shadow 0.3s ease;
+}
+
+.video-card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 30px rgba(50,205,50,0.18);
+}
+
+.video-card video{
+width:100%;
+display:block;
+background:black;
+}
+
+.video-info{
+padding:16px;
+}
+
+.video-info h3{
+margin:0 0 8px;
+font-size:1.1rem;
+}
+
+.video-info p{
+margin:0;
+color:#cccccc;
+font-size:0.95rem;
+}
+
+.footer{
+text-align:center;
+padding:30px 20px 50px;
+color:#bdbdbd;
+font-size:0.95rem;
+}
+
+@media(max-width:600px){
+
+.hero{
+padding-top:80px;
+padding-bottom:80px;
+}
+
+.hero p{
+font-size:1rem;
+}
+
+.section{
+padding:50px 16px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-    <video class="full-screen-video" autoplay muted loop>
-        <source src="path_to_your_video.mp4" type="video/mp4">
-        Your browser does not support HTML5 video.
-    </video>
-    <h1>Lyrical Lemonade Inspired Video Gallery</h1>
-    <div class="container">
-        <div class="video"><video src="video1.mp4" controls></video></div>
-        <div class="video"><video src="video2.mp4" controls></video></div>
-        <div class="video"><video src="video3.mp4" controls></video></div>
-        <div class="video"><video src="video4.mp4" controls></video></div>
-    </div>
+
+<!-- background video -->
+<video class="background-video" autoplay muted loop playsinline>
+<source src="1v.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Dard Gabbana</h1>
+
+<p>
+A cinematic landing page showcasing music video visuals,
+edits and creative direction in a modern grid layout.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#videos" class="btn btn-primary">
+Watch Videos
+</a>
+
+<a href="#about" class="btn btn-secondary">
+Learn More
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="videos">
+
+<div class="container">
+
+<h2 class="section-title">Featured Videos</h2>
+
+<p class="section-subtitle">
+A curated collection of visuals and motion projects.
+</p>
+
+
+<div class="video-grid">
+
+<div class="video-card">
+
+<video src="1v.mp4" controls></video>
+
+<div class="video-info">
+<h3>Project One</h3>
+<p>Visual showcase clip.</p>
+</div>
+
+</div>
+
+
+<div class="video-card">
+
+<video src="2v.mp4" controls></video>
+
+<div class="video-info">
+<h3>Project Two</h3>
+<p>Music video inspired visual.</p>
+</div>
+
+</div>
+
+
+<div class="video-card">
+
+<video src="3v.mp4" controls></video>
+
+<div class="video-info">
+<h3>Project Three</h3>
+<p>Cinematic visual edit.</p>
+</div>
+
+</div>
+
+
+<div class="video-card">
+
+<video src="4v.mp4" controls></video>
+
+<div class="video-info">
+<h3>Project Four</h3>
+<p>Creative direction showcase.</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section class="section" id="about">
+
+<div class="container">
+
+<h2 class="section-title">About</h2>
+
+<p class="section-subtitle">
+This landing page is built as a cinematic video gallery with
+fullscreen motion background and responsive layout for
+desktop and mobile.
+</p>
+
+</div>
+
+</section>
+
+
+<footer class="footer">
+
+© 2026 Dard Gabbana
+
+</footer>
+
 </body>
 </html>
