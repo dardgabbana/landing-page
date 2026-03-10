@@ -20,6 +20,7 @@
       background: #050505;
       color: #f5f5f5;
       line-height: 1.4;
+      cursor: default;
     }
 
     a {
@@ -30,6 +31,19 @@
     video {
       display: block;
       width: 100%;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255, 230, 0, 0.5);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      filter: blur(18px);
+      mix-blend-mode: screen;
     }
 
     .site-header {
@@ -117,12 +131,20 @@
       display: block;
       padding: 20px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      transition: opacity 0.2s ease, transform 0.2s ease;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        text-shadow 0.3s ease,
+        color 0.3s ease;
     }
 
     .work-item:hover {
       opacity: 1;
-      transform: translateX(4px);
+      transform: translateX(8px);
+      color: #fff7a8;
+      text-shadow:
+        0 0 6px rgba(255, 230, 0, 0.45),
+        0 0 16px rgba(255, 230, 0, 0.25);
     }
 
     .work-top {
@@ -167,6 +189,19 @@
     .featured-video {
       background: #0d0d0d;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      transform-origin: center center;
+      overflow: hidden;
+    }
+
+    .featured-video:hover {
+      transform: scale(1.06);
+      border-color: rgba(255, 230, 0, 0.85);
+      box-shadow:
+        0 0 12px rgba(255, 230, 0, 0.35),
+        0 0 28px rgba(255, 230, 0, 0.28),
+        0 0 60px rgba(255, 230, 0, 0.18);
+      z-index: 5;
     }
 
     .featured-caption {
@@ -225,6 +260,10 @@
       .about-inner {
         grid-template-columns: 1fr;
       }
+
+      .cursor-glow {
+        display: none;
+      }
     }
 
     @media (max-width: 640px) {
@@ -272,6 +311,8 @@
   </style>
 </head>
 <body>
+  <div class="cursor-glow"></div>
+
   <header class="site-header">
     <div class="brand">Exodia FX Videos</div>
 
@@ -342,7 +383,7 @@
 
     <aside class="featured-panel">
       <div class="featured-video" id="video-1">
-        <video src="1v.mp4" controls></video>
+        <video src="1v.mp4" muted playsinline></video>
       </div>
       <div class="featured-caption">
         <span>Selected Work — Project One</span>
@@ -352,19 +393,19 @@
       <div style="height: 22px;"></div>
 
       <div class="featured-video" id="video-2">
-        <video src="2v.mp4" controls></video>
+        <video src="2v.mp4" muted playsinline></video>
       </div>
 
       <div style="height: 22px;"></div>
 
       <div class="featured-video" id="video-3">
-        <video src="3v.mp4" controls></video>
+        <video src="3v.mp4" muted playsinline></video>
       </div>
 
       <div style="height: 22px;"></div>
 
       <div class="featured-video" id="video-4">
-        <video src="4v.mp4" controls></video>
+        <video src="4v.mp4" muted playsinline></video>
       </div>
     </aside>
   </main>
@@ -383,5 +424,28 @@
   <footer class="site-footer" id="contact">
     Contact / Instagram / Email
   </footer>
+
+  <script>
+    const cursorGlow = document.querySelector(".cursor-glow");
+    const videos = document.querySelectorAll("video");
+
+    document.addEventListener("mousemove", (e) => {
+      cursorGlow.style.left = e.clientX + "px";
+      cursorGlow.style.top = e.clientY + "px";
+    });
+
+    videos.forEach((video) => {
+      video.muted = true;
+
+      video.addEventListener("mouseenter", () => {
+        video.play();
+      });
+
+      video.addEventListener("mouseleave", () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    });
+  </script>
 </body>
 </html>
