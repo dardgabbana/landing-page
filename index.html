@@ -3,48 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Landing Page</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-        .container { width: 100%; max-width: 1200px; margin: auto; padding: 20px; }
-        .video-section { margin-bottom: 20px; }
-        video { width: 100%; height: auto; }
-        @media (max-width: 600px) {
-            .video-section { margin-bottom: 15px; }
-        }
-    </style>
+    <title>Video Gallery</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Our Landing Page</h1>
-        <div class="video-section">
-            <h2>Video Section 1</h2>
-            <video controls>
-                <source src="video1.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="video-section">
-            <h2>Video Section 2</h2>
-            <video controls>
-                <source src="video2.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="video-section">
-            <h2>Video Section 3</h2>
-            <video controls>
-                <source src="video3.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-        <div class="video-section">
-            <h2>Video Section 4</h2>
-            <video controls>
-                <source src="video4.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+    <h1>Video Gallery</h1>
+    <div class="video-container">
+        <video width="320" height="240" controls>
+            <source src="video1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video width="320" height="240" controls>
+            <source src="video2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video width="320" height="240" controls>
+            <source src="video3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video width="320" height="240" controls>
+            <source src="video4.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
 </body>
 </html>
