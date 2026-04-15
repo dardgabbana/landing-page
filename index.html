@@ -11,363 +11,338 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{
             font-family:'Geist',sans-serif;
-            background:radial-gradient(ellipse at 50% 10%,#d9f99d 0%,#bef264 20%,#a3e635 45%,#84cc16 70%,#65a30d 100%);
+            background:radial-gradient(ellipse at 50% 10%,#d9f99d 0%,#bef264 20%,#a3e635 45%,#84cc16 75%,#65a30d 100%);
             color:#fff;overflow-x:hidden;min-height:100vh;
         }
-        /* Reptile scales */
         body::before{
-            content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.035;
+            content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.03;
             background-image:
-                radial-gradient(ellipse 20px 16px at 50% 50%,rgba(0,0,0,0.5) 0%,transparent 70%),
-                radial-gradient(ellipse 20px 16px at 0% 100%,rgba(0,0,0,0.5) 0%,transparent 70%),
-                radial-gradient(ellipse 20px 16px at 100% 100%,rgba(0,0,0,0.5) 0%,transparent 70%);
+                radial-gradient(ellipse 20px 16px at 50% 50%,rgba(0,0,0,0.6) 0%,transparent 70%),
+                radial-gradient(ellipse 20px 16px at 0% 100%,rgba(0,0,0,0.6) 0%,transparent 70%),
+                radial-gradient(ellipse 20px 16px at 100% 100%,rgba(0,0,0,0.6) 0%,transparent 70%);
             background-size:40px 36px;
         }
-        body::after{
-            content:'';position:fixed;inset:0;opacity:0.025;pointer-events:none;z-index:0;
-            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-        }
 
-        /* ── CHAMELEON ── */
-        .cham-wrap{position:relative;width:480px;height:620px;flex-shrink:0}
-        .cham-glow{
-            position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);
-            width:420px;height:440px;border-radius:50%;
-            background:radial-gradient(circle,rgba(21,128,61,0.22) 0%,transparent 70%);
-            filter:blur(50px);animation:chBreathe 4.5s ease-in-out infinite;
-        }
-        @keyframes chBreathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.65}50%{transform:translate(-50%,-50%) scale(1.1);opacity:1}}
+        /* ── RETRO TV ── */
+        .tv-wrap{position:relative;width:460px;height:400px;flex-shrink:0}
 
-        .cham-body{
-            position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
-            width:370px;height:420px;
-            background:linear-gradient(160deg,#166534 0%,#15803d 15%,#166534 35%,#14532d 60%,#052e16 85%,#022c22 100%);
-            border-radius:46% 46% 42% 42%/50% 50% 46% 46%;
-            box-shadow:0 0 60px rgba(22,101,52,0.3),inset 0 -35px 55px rgba(0,0,0,0.3),inset 0 18px 40px rgba(74,222,128,0.08);
-            animation:chBodyB 4.5s ease-in-out infinite;
-            transition:filter .6s;
-        }
-        .cham-body:hover{filter:brightness(1.08) saturate(1.1)}
-        @keyframes chBodyB{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.008)}}
-
-        .cham-spot{position:absolute;border-radius:50%;background:rgba(5,46,22,0.45);box-shadow:inset 0 2px 5px rgba(0,0,0,0.25)}
-        .cham-spot.s1{width:24px;height:24px;top:8%;left:9%}
-        .cham-spot.s2{width:20px;height:20px;top:24%;right:7%}
-        .cham-spot.s3{width:26px;height:26px;bottom:18%;left:13%}
-        .cham-spot.s4{width:16px;height:16px;top:14%;left:40%}
-        .cham-spot.s5{width:22px;height:22px;bottom:26%;right:10%}
-        .cham-spot.s6{width:14px;height:14px;top:38%;left:5%}
-        .cham-spot.s7{width:18px;height:18px;bottom:12%;left:38%}
-        .cham-spot.s8{width:12px;height:12px;top:50%;right:6%}
-        .cham-spot.s9{width:20px;height:20px;bottom:6%;right:25%}
-
-        .cham-ridge{position:absolute;top:-5px;left:12%;width:76%;height:14px;background:linear-gradient(90deg,transparent,rgba(74,222,128,0.18),transparent);border-radius:50%;filter:blur(2px)}
-        .cham-crest{position:absolute;top:-26px;left:35px;width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:32px solid #166534;filter:drop-shadow(0 -5px 8px rgba(22,101,52,0.25))}
-
-        /* Tongue */
-        .cham-tongue{
-            position:absolute;bottom:85px;left:62px;width:0;height:3px;
-            background:linear-gradient(90deg,#dc2626,#ef4444);border-radius:0 2px 2px 0;
-            transform-origin:left center;transition:width .25s cubic-bezier(.4,0,.2,1);
-            z-index:5;
-        }
-        .cham-body:hover .cham-tongue{width:65px}
-        .cham-tongue::after{
-            content:'';position:absolute;right:-5px;top:-4px;
-            width:10px;height:10px;background:#ef4444;border-radius:50%;
-            opacity:0;transition:opacity .25s .15s;
-        }
-        .cham-body:hover .cham-tongue::after{opacity:1}
-
-        /* TV */
-        .cham-tv{
+        .tv-glow{
             position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-            width:295px;height:190px;border-radius:16px;overflow:hidden;cursor:pointer;
-            border:4px solid #15803d;background:#000;
-            box-shadow:0 0 25px rgba(22,101,52,0.35),inset 0 0 25px rgba(0,0,0,0.6),
-                        5px 5px 0 #14532d,5px 5px 0 #052e16;
-            transition:border-color .3s,box-shadow .3s;
+            width:380px;height:320px;border-radius:50%;
+            background:radial-gradient(circle,rgba(22,101,52,0.15) 0%,transparent 65%);
+            filter:blur(40px);animation:tvPulse 5s ease-in-out infinite;
         }
-        .cham-tv:hover{border-color:#22c55e;box-shadow:0 0 35px rgba(34,197,94,0.45),inset 0 0 25px rgba(0,0,0,0.6),5px 5px 0 #14532d,5px 5px 0 #052e16}
+        @keyframes tvPulse{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
 
-        /* TV knobs */
-        .tv-knob{position:absolute;width:10px;height:10px;border-radius:50%;background:#14532d;border:2px solid #166534;z-index:4}
-        .tv-knob.k1{bottom:-16px;right:50px}
-        .tv-knob.k2{bottom:-16px;right:30px;background:#166534;border-color:#15803d}
-        .tv-knob.k3{bottom:-16px;right:10px;background:#166534;border-color:#15803d}
+        .tv-body{
+            position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+            width:420px;height:340px;
+            background:linear-gradient(160deg,#374151 0%,#1f2937 30%,#111827 60%,#0a0a0a 100%);
+            border-radius:28px 28px 20px 20px;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.5),
+                0 0 0 4px #374151,
+                0 0 0 6px #1f2937,
+                inset 0 2px 0 rgba(255,255,255,0.05),
+                inset 0 -10px 30px rgba(0,0,0,0.4);
+        }
 
-        /* Scanlines */
+        .tv-screen-bezel{
+            position:absolute;top:20px;left:20px;right:80px;bottom:40px;
+            border-radius:18px;overflow:hidden;
+            background:#000;
+            box-shadow:
+                inset 0 0 30px rgba(0,0,0,0.8),
+                0 0 0 3px #1f2937,
+                0 0 0 5px #374151;
+        }
+        .tv-screen{
+            position:relative;width:100%;height:100%;overflow:hidden;cursor:pointer;
+            background:#000;
+        }
+        .tv-screen img{
+            width:100%;height:100%;object-fit:cover;
+            filter:brightness(0.7) contrast(1.1) saturate(1.15);
+            transition:filter .4s;
+        }
+        .tv-screen:hover img{filter:brightness(0.85) contrast(1.05) saturate(1.2)}
+
+        /* CRT scanlines */
         .tv-scanlines{
-            position:absolute;inset:0;z-index:3;pointer-events:none;
-            background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.06) 2px,rgba(0,0,0,0.06) 4px);
-            opacity:0.5;
+            position:absolute;inset:0;pointer-events:none;z-index:2;
+            background:repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.08) 2px,
+                rgba(0,0,0,0.08) 4px
+            );
         }
 
-        .tv-poster,.tv-iframe{position:absolute;inset:0;width:100%;height:100%;transition:opacity .35s}
-        .tv-poster{object-fit:cover;filter:brightness(.6) saturate(1.2);z-index:1}
-        .tv-iframe{opacity:0;pointer-events:none;z-index:2;border:none}
-        .tv-iframe.active{opacity:1}
-
-        .cham-tv-overlay{
-            position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;
-            background:rgba(0,0,0,0.25);transition:opacity .35s;pointer-events:none;
+        /* CRT curve overlay */
+        .tv-curve{
+            position:absolute;inset:0;pointer-events:none;z-index:3;
+            background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.35) 100%);
+            border-radius:18px;
         }
-        .cham-tv:hover .cham-tv-overlay{background:rgba(0,0,0,0.1)}
-        .cham-tv.playing .cham-tv-overlay{opacity:0}
-        .cham-tv-play{
-            width:56px;height:56px;border-radius:50%;background:rgba(163,230,53,0.92);
+
+        /* Screen reflection */
+        .tv-reflection{
+            position:absolute;top:-30%;left:-20%;width:80%;height:80%;
+            pointer-events:none;z-index:4;
+            background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%);
+            transform:rotate(-15deg);
+        }
+
+        .tv-play-overlay{
+            position:absolute;inset:0;z-index:5;
             display:flex;align-items:center;justify-content:center;
-            box-shadow:0 0 25px rgba(163,230,53,0.5);transition:transform .3s;
+            transition:background .3s;
         }
-        .cham-tv:hover .cham-tv-play{transform:scale(1.12)}
-        .cham-tv.playing .cham-tv-play{display:none}
-        .cham-tv-play svg{color:#052e16;margin-left:2px}
+        .tv-screen:hover .tv-play-overlay{background:rgba(0,0,0,0.1)}
+        .tv-play-btn{
+            width:64px;height:64px;border-radius:50%;
+            background:rgba(163,230,53,0.9);
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 0 30px rgba(163,230,53,0.4);
+            transition:transform .3s,box-shadow .3s;
+        }
+        .tv-screen:hover .tv-play-btn{transform:scale(1.12);box-shadow:0 0 40px rgba(163,230,53,0.6)}
+        .tv-play-btn svg{color:#052e16;margin-left:3px}
 
-        /* TV label */
-        .tv-label{
-            position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);
-            font-size:9px;letter-spacing:.15em;text-transform:uppercase;
-            color:rgba(5,46,22,0.5);font-weight:600;white-space:nowrap;
+        /* TV badge */
+        .tv-badge{
+            position:absolute;top:8px;right:8px;z-index:6;
+            background:rgba(163,230,53,0.9);color:#052e16;
+            padding:2px 8px;border-radius:4px;
+            font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+        }
+
+        /* Side panel with knobs */
+        .tv-side{
+            position:absolute;top:30px;right:14px;width:52px;bottom:50px;
+            display:flex;flex-direction:column;align-items:center;
+            justify-content:center;gap:18px;
+        }
+        .tv-knob{
+            width:36px;height:36px;border-radius:50%;
+            background:conic-gradient(from 0deg,#4b5563,#6b7280,#374151,#4b5563);
+            box-shadow:inset 0 2px 4px rgba(255,255,255,0.1),0 2px 6px rgba(0,0,0,0.4);
+            position:relative;
+        }
+        .tv-knob::after{
+            content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);
+            width:2px;height:10px;background:#9ca3af;border-radius:1px;
+        }
+        .tv-knob-sm{
+            width:22px;height:22px;border-radius:50%;
+            background:conic-gradient(from 45deg,#4b5563,#6b7280,#374151,#4b5563);
+            box-shadow:inset 0 1px 2px rgba(255,255,255,0.08),0 1px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Speaker grille */
+        .tv-speaker{
+            position:absolute;bottom:18px;left:20px;right:80px;height:14px;
+            background:repeating-linear-gradient(
+                90deg,
+                #1f2937 0px,#1f2937 3px,
+                #111827 3px,#111827 6px
+            );
+            border-radius:3px;opacity:0.6;
+        }
+
+        /* TV feet */
+        .tv-feet{
+            position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+            display:flex;gap:240px;
+        }
+        .tv-foot{
+            width:60px;height:30px;
+            background:linear-gradient(180deg,#374151,#1f2937);
+            border-radius:0 0 8px 8px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.3);
         }
 
         /* Antenna */
-        .cham-antenna{position:absolute;top:-35px;left:50%;transform:translateX(-50%);width:2px;height:32px;background:#15803d}
-        .cham-antenna::before{
-            content:'';position:absolute;top:-6px;left:-5px;
-            width:12px;height:12px;border-radius:50%;
+        .tv-antenna-left{
+            position:absolute;top:-55px;left:calc(50% - 50px);
+            width:3px;height:60px;
+            background:linear-gradient(180deg,#6b7280,#374151);
+            transform:rotate(-20deg);transform-origin:bottom center;
+            border-radius:2px;
+        }
+        .tv-antenna-left::before{
+            content:'';position:absolute;top:-6px;left:-4px;
+            width:10px;height:10px;border-radius:50%;
             background:radial-gradient(circle at 40% 35%,#a3e635,#65a30d);
             box-shadow:0 0 10px rgba(163,230,53,0.6);
             animation:antGlow 2s ease-in-out infinite alternate;
         }
-        @keyframes antGlow{0%{box-shadow:0 0 6px rgba(163,230,53,0.4)}100%{box-shadow:0 0 16px rgba(163,230,53,0.9)}}
-
-        .cham-mouth{position:absolute;bottom:80px;left:72px;width:50px;height:14px;border-bottom:3px solid rgba(5,46,22,0.55);border-radius:0 0 50% 50%}
-
-        /* Eye */
-        .cham-eye-wrap{position:absolute;top:-20px;left:64px;z-index:10}
-        .cham-eye-socket{
-            width:88px;height:88px;border-radius:50%;
-            background:radial-gradient(circle at 40% 40%,#14532d,#022c22);
-            box-shadow:0 0 28px rgba(22,101,52,0.5),inset 0 3px 8px rgba(0,0,0,0.5);
-            display:flex;align-items:center;justify-content:center;
+        .tv-antenna-right{
+            position:absolute;top:-55px;left:calc(50% + 30px);
+            width:3px;height:55px;
+            background:linear-gradient(180deg,#6b7280,#374151);
+            transform:rotate(20deg);transform-origin:bottom center;
+            border-radius:2px;
         }
-        .cham-eye-ball{
-            width:68px;height:68px;border-radius:50%;
-            background:radial-gradient(circle at 38% 35%,#fde68a,#f59e0b 40%,#d97706 70%,#92400e);
-            box-shadow:inset 0 2px 10px rgba(0,0,0,0.3);
-            position:relative;overflow:hidden;
+        .tv-antenna-right::before{
+            content:'';position:absolute;top:-5px;left:-3.5px;
+            width:9px;height:9px;border-radius:50%;
+            background:radial-gradient(circle at 40% 35%,#bef264,#4d7c0f);
+            box-shadow:0 0 8px rgba(163,230,53,0.5);
+            animation:antGlow 2.4s ease-in-out infinite alternate-reverse;
         }
-        .cham-pupil{
-            position:absolute;width:16px;height:38px;background:#000;border-radius:50%;
-            top:50%;left:50%;transform:translate(-50%,-50%);
-            transition:transform .08s ease-out,height .4s ease;
-            box-shadow:0 0 6px rgba(0,0,0,0.6);
+        @keyframes antGlow{0%{box-shadow:0 0 6px rgba(163,230,53,0.3)}100%{box-shadow:0 0 16px rgba(163,230,53,0.9)}}
+
+        /* Static noise on screen edges */
+        .tv-static{
+            position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.04;
+            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+            animation:staticMove 0.15s steps(3) infinite;
         }
-        .cham-pupil.dilated{height:46px}
-        .cham-eye-shine{position:absolute;top:10px;left:16px;width:12px;height:12px;background:rgba(255,255,255,0.92);border-radius:50%;pointer-events:none}
-        .cham-eye-shine-sm{position:absolute;bottom:16px;right:16px;width:6px;height:6px;background:rgba(255,255,255,0.3);border-radius:50%;pointer-events:none}
+        @keyframes staticMove{
+            0%{transform:translate(0,0)}
+            33%{transform:translate(-2px,1px)}
+            66%{transform:translate(1px,-1px)}
+            100%{transform:translate(0,0)}
+        }
 
-        /* Tail */
-        .cham-tail{position:absolute;bottom:90px;right:-18px;width:100px;height:120px;filter:drop-shadow(0 0 10px rgba(22,101,52,0.3))}
-
-        /* Legs */
-        .cham-leg{position:absolute;bottom:40px;width:28px;height:50px;border-radius:0 0 14px 14px;background:linear-gradient(180deg,#166534,#14532d);box-shadow:0 5px 12px rgba(0,0,0,0.3)}
-        .cham-leg.fl{left:100px;transform:rotate(5deg)}
-        .cham-leg.fr{left:138px;transform:rotate(-3deg);background:linear-gradient(180deg,#15803d,#166534)}
-        .cham-leg.bl{right:110px;transform:rotate(-5deg)}
-        .cham-leg.br{right:145px;transform:rotate(3deg);background:linear-gradient(180deg,#15803d,#166534)}
-        .cham-toes{position:absolute;bottom:-3px;left:50%;transform:translateX(-50%);display:flex;gap:3px}
-        .cham-toe{width:7px;height:8px;background:#14532d;border-radius:0 0 4px 4px}
-
-        /* ── PLAYLIST ── */
-        .playlist-scroll{flex:1;overflow-y:auto;padding-right:6px}
-        .playlist-scroll::-webkit-scrollbar{width:3px}
-        .playlist-scroll::-webkit-scrollbar-track{background:transparent}
-        .playlist-scroll::-webkit-scrollbar-thumb{background:rgba(22,101,52,0.2);border-radius:3px}
-        .playlist-item{
-            display:flex;gap:12px;padding:10px 12px;border-radius:12px;cursor:pointer;
-            transition:all .25s;border-left:3px solid transparent;margin-bottom:3px;
-            animation:plF .4s ease-out backwards;
+        /* ── AUTO-SCROLL PLAYLIST ── */
+        .pl-auto-scroll{
+            flex:1;overflow:hidden;position:relative;
+            mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+            -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 8%,black 92%,transparent 100%);
+        }
+        .pl-auto-scroll:hover .pl-track{animation-play-state:paused!important}
+        .pl-track{
+            display:flex;flex-direction:column;gap:8px;
+            animation:autoScroll var(--scroll-dur) linear infinite;
+        }
+        @keyframes autoScroll{
+            0%{transform:translateY(0)}
+            100%{transform:translateY(var(--scroll-dist))}
+        }
+        .pl-item{
+            display:flex;gap:12px;padding:10px 12px;border-radius:14px;cursor:pointer;
+            transition:all .25s;border-left:3px solid transparent;flex-shrink:0;
             background:rgba(2,6,23,0.7);backdrop-filter:blur(6px);
         }
-        .playlist-item:hover{background:rgba(2,6,23,0.88)!important;transform:translateX(4px)}
-        .playlist-item.active{border-left-color:#a3e635;background:rgba(2,6,23,0.92)!important}
-        .playlist-item.previewing{border-left-color:#facc15;background:rgba(2,6,23,0.85)!important}
-        @keyframes plF{from{opacity:0;transform:translateX(-15px)}to{opacity:1;transform:translateX(0)}}
-        .pl-thumb{position:relative;width:115px;height:65px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#0f172a}
+        .pl-item:hover,.pl-auto-scroll:hover .pl-item:hover{background:rgba(2,6,23,0.88)!important;transform:translateX(4px)}
+        .pl-item.active{border-left-color:#a3e635;background:rgba(2,6,23,0.92)!important}
+        .pl-thumb{position:relative;width:115px;height:65px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#0f172a}
         .pl-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-        .playlist-item:hover .pl-thumb img{transform:scale(1.1)}
-        .pl-playing-indicator{
-            position:absolute;inset:0;display:none;align-items:center;justify-content:center;
-            background:rgba(0,0,0,0.5);
+        .pl-item:hover .pl-thumb img{transform:scale(1.1)}
+        .pl-num{
+            position:absolute;top:4px;left:4px;
+            background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);
+            width:20px;height:20px;border-radius:5px;
+            display:flex;align-items:center;justify-content:center;
+            font-size:10px;font-weight:700;color:#a3e635;
         }
-        .playlist-item.previewing .pl-playing-indicator{display:flex}
-        .pl-bars{display:flex;align-items:flex-end;gap:2px;height:16px}
-        .pl-bar{width:3px;background:#a3e635;border-radius:1px;animation:plBarAnim .6s ease-in-out infinite alternate}
-        .pl-bar:nth-child(1){height:40%;animation-delay:0s}
-        .pl-bar:nth-child(2){height:70%;animation-delay:.15s}
-        .pl-bar:nth-child(3){height:50%;animation-delay:.3s}
-        .pl-bar:nth-child(4){height:80%;animation-delay:.1s}
-        @keyframes plBarAnim{from{height:20%}to{height:100%}}
 
-        /* ── MODALS ── */
-        .modal-backdrop{
-            position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.88);backdrop-filter:blur(16px);
-            opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;
-        }
-        .modal-backdrop.open{opacity:1;visibility:visible}
-        .modal-content{
-            position:fixed;z-index:101;top:50%;left:50%;
-            transform:translate(-50%,-50%) scale(0.92);
-            width:92%;max-width:920px;
-            opacity:0;visibility:hidden;
-            transition:opacity .4s ease,transform .4s cubic-bezier(.4,0,.2,1),visibility .4s;
-        }
-        .modal-content.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
-        .modal-close{
-            position:absolute;top:-14px;right:-14px;width:38px;height:38px;border-radius:50%;
-            background:rgba(15,23,42,0.95);border:1px solid rgba(255,255,255,0.1);
-            display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;
-            transition:all .2s;
-        }
-        .modal-close:hover{background:#1e293b;transform:scale(1.1)}
+        /* ── MODAL ── */
+        .modal-bg{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.88);backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+        .modal-bg.open{opacity:1;visibility:visible}
+        .modal-box{position:fixed;z-index:101;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:92%;max-width:920px;opacity:0;visibility:hidden;transition:opacity .3s ease,transform .3s ease,visibility .3s}
+        .modal-box.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+        .modal-x{position:absolute;top:-14px;right:-14px;width:40px;height:40px;border-radius:50%;background:rgba(15,23,42,0.95);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .2s}
+        .modal-x:hover{background:rgba(30,41,59,1);transform:scale(1.1)}
 
-        /* Quote modal */
-        .quote-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .4s}
-        .quote-modal.open{opacity:1;visibility:visible}
-        .quote-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(14px)}
-        .quote-box{
-            position:relative;z-index:1;width:92%;max-width:440px;
-            background:rgba(2,6,23,0.95);border:1px solid rgba(163,230,53,0.15);
-            border-radius:20px;padding:32px 28px;
-            box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 40px rgba(163,230,53,0.06);
-            transform:translateY(20px);transition:transform .4s cubic-bezier(.4,0,.2,1);
-        }
-        .quote-modal.open .quote-box{transform:translateY(0)}
-        .quote-input{
-            width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);
-            background:rgba(255,255,255,0.04);color:#fff;font-size:14px;font-family:'Geist',sans-serif;
-            outline:none;transition:border-color .3s,background .3s;margin-bottom:12px;
-        }
-        .quote-input::placeholder{color:rgba(255,255,255,0.25)}
-        .quote-input:focus{border-color:rgba(163,230,53,0.4);background:rgba(255,255,255,0.07)}
-        .quote-textarea{resize:none;min-height:90px}
-        .quote-submit{
-            width:100%;padding:14px;border-radius:12px;border:none;
-            background:linear-gradient(135deg,#a3e635,#84cc16);color:#052e16;
-            font-size:15px;font-weight:700;font-family:'Geist',sans-serif;
-            cursor:pointer;transition:all .3s;
-            box-shadow:0 4px 20px rgba(163,230,53,0.3);
-        }
-        .quote-submit:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(163,230,53,0.45);background:linear-gradient(135deg,#bef264,#a3e635)}
+        /* ── QUOTE MODAL ── */
+        .quote-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+        .quote-bg.open{opacity:1;visibility:visible}
+        .quote-box{position:fixed;z-index:201;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:92%;max-width:460px;opacity:0;visibility:hidden;transition:opacity .3s ease,transform .3s ease,visibility .3s}
+        .quote-box.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+        .quote-input{width:100%;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#fff;font-family:'Geist',sans-serif;font-size:14px;transition:border-color .2s,background .2s;outline:none}
+        .quote-input:focus{border-color:rgba(163,230,53,0.5);background:rgba(255,255,255,0.1)}
+        .quote-input::placeholder{color:#64748b}
+
+        /* ── ACTION BUTTONS ── */
+        .action-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:600;transition:all .25s;cursor:pointer;border:none;text-decoration:none}
+        .action-btn:hover{transform:translateY(-2px)}
+        .action-btn:active{transform:translateY(0)}
 
         /* Film strip */
         @keyframes scrollFilm{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-        .film-scroll{display:flex;gap:8px;animation:scrollFilm 35s linear infinite}
-        .film-frame{width:44px;height:28px;border-radius:4px;flex-shrink:0;background:rgba(0,0,0,0.05);border:1px solid rgba(0,0,0,0.04)}
+        .film-scroll{display:flex;gap:8px;animation:scrollFilm 28s linear infinite}
+        .film-frame{width:44px;height:28px;border-radius:4px;flex-shrink:0;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
 
         /* Deco eyes */
-        .deco-eye{position:absolute;border-radius:50%;opacity:0.06;pointer-events:none;background:radial-gradient(circle at 40% 35%,#fde68a,#d97706 50%,#92400e)}
+        .deco-eye{position:absolute;border-radius:50%;opacity:0.07;pointer-events:none;background:radial-gradient(circle at 38% 35%,#fde68a,#d97706 50%,#92400e)}
 
         /* Toast */
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(2,6,23,0.92);color:#fff;padding:10px 24px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;z-index:200;transition:opacity .3s,transform .3s;box-shadow:0 8px 30px rgba(0,0,0,0.3);border:1px solid rgba(163,230,53,0.2);backdrop-filter:blur(8px)}
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(2,6,23,0.94);color:#fff;padding:12px 28px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;z-index:300;transition:opacity .3s,transform .3s;box-shadow:0 8px 30px rgba(0,0,0,0.3);border:1px solid rgba(163,230,53,0.15);backdrop-filter:blur(8px)}
         .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-        /* Action buttons */
-        .action-btn{
-            display:inline-flex;align-items:center;gap:8px;
-            padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;
-            transition:all .3s;cursor:pointer;border:none;font-family:'Geist',sans-serif;
-            text-decoration:none;
-        }
-        .action-btn:hover{transform:translateY(-2px)}
-        .action-btn-primary{
-            background:rgba(2,6,23,0.85);color:#fff;
-            border:1px solid rgba(255,255,255,0.1);
-            box-shadow:0 4px 20px rgba(0,0,0,0.2);
-            backdrop-filter:blur(8px);
-        }
-        .action-btn-primary:hover{background:rgba(2,6,23,0.95);box-shadow:0 6px 28px rgba(0,0,0,0.3)}
-        .action-btn-lime{
-            background:linear-gradient(135deg,#a3e635,#84cc16);color:#052e16;
-            box-shadow:0 4px 20px rgba(163,230,53,0.35);
-        }
-        .action-btn-lime:hover{box-shadow:0 6px 28px rgba(163,230,53,0.5);background:linear-gradient(135deg,#bef264,#a3e635)}
-        .action-btn-outline{
-            background:transparent;color:rgba(2,6,23,0.7);
-            border:2px solid rgba(2,6,23,0.2);
-        }
-        .action-btn-outline:hover{border-color:rgba(2,6,23,0.4);background:rgba(2,6,23,0.05)}
-
-        /* ── RESPONSIVE ── */
-        @media(max-width:1024px){
-            .player-section{flex-direction:column!important;align-items:center!important}
-            .cham-wrap{width:400px;height:520px}
-            .cham-body{width:320px;height:365px}
-            .cham-tv{width:255px;height:165px}
-            .cham-eye-wrap{top:-16px;left:54px}
-            .cham-eye-socket{width:76px;height:76px}
-            .cham-eye-ball{width:60px;height:60px}
-            .cham-pupil{width:14px;height:34px}
-            .cham-leg{height:42px;width:24px}
-            .cham-tail{width:85px;height:100px;bottom:75px;right:-14px}
-            .cham-mouth{bottom:68px;left:62px}
-            .cham-crest{top:-22px;left:28px;border-left-width:18px;border-right-width:18px;border-bottom-width:28px}
-            .cham-tongue{bottom:72px;left:54px}
-            .playlist-container{max-width:100%!important;width:100%!important;max-height:360px}
-            .pl-thumb{width:100px;height:56px}
+        /* Responsive */
+        @media(max-width:1050px){
+            .player-flex{flex-direction:column!important;align-items:center!important}
+            .tv-wrap{width:380px;height:340px}
+            .tv-body{width:350px;height:290px}
+            .tv-screen-bezel{top:16px;left:16px;right:68px;bottom:34px}
+            .tv-side{right:10px;width:44px}
+            .tv-knob{width:30px;height:30px}
+            .tv-knob-sm{width:18px;height:18px}
+            .tv-feet{gap:200px}
+            .tv-foot{width:50px;height:26px}
+            .pl-container{max-width:100%!important;width:100%!important;max-height:320px}
         }
         @media(max-width:500px){
-            .cham-wrap{width:320px;height:420px}
-            .cham-body{width:260px;height:300px}
-            .cham-tv{width:210px;height:136px;border-width:3px;border-radius:12px}
-            .cham-eye-wrap{top:-12px;left:42px}
-            .cham-eye-socket{width:60px;height:60px}
-            .cham-eye-ball{width:48px;height:48px}
-            .cham-pupil{width:12px;height:28px}
-            .cham-leg{height:34px;width:20px}
-            .cham-tail{width:68px;height:80px;bottom:60px;right:-10px}
-            .cham-mouth{bottom:55px;left:50px}
-            .cham-crest{top:-18px;left:22px;border-left-width:14px;border-right-width:14px;border-bottom-width:22px}
-            .cham-tongue{bottom:58px;left:42px}
-            .pl-thumb{width:80px;height:45px}
-            .action-btn{padding:10px 18px;font-size:13px}
+            .tv-wrap{width:320px;height:290px}
+            .tv-body{width:300px;height:250px}
+            .tv-screen-bezel{top:14px;left:14px;right:60px;bottom:30px;border-radius:14px}
+            .tv-screen-bezel::before{border-radius:14px!important}
+            .tv-play-btn{width:50px;height:50px}
+            .tv-side{right:8px;width:38px;gap:12px}
+            .tv-knob{width:26px;height:26px}
+            .tv-knob-sm{width:16px;height:16px}
+            .tv-feet{gap:170px}
+            .tv-foot{width:42px;height:22px}
+            .tv-antenna-left{top:-42px;left:calc(50% - 40px);height:48px}
+            .tv-antenna-right{top:-42px;left:calc(50% + 24px);height:44px}
+            .pl-thumb{width:85px;height:48px}
+            .pl-num{width:16px;height:16px;font-size:8px}
         }
 
-        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar{width:5px}
         ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+        ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
     </style>
 </head>
 <body>
 
 <!-- Deco eyes -->
-<div class="deco-eye" style="width:70px;height:70px;top:8%;left:4%"></div>
-<div class="deco-eye" style="width:45px;height:45px;top:22%;right:6%"></div>
-<div class="deco-eye" style="width:55px;height:55px;bottom:12%;left:8%"></div>
-<div class="deco-eye" style="width:38px;height:38px;bottom:28%;right:4%"></div>
-<div class="deco-eye" style="width:50px;height:50px;top:55%;left:2%"></div>
-<div class="deco-eye" style="width:30px;height:30px;top:70%;right:10%"></div>
+<div class="deco-eye" style="width:55px;height:55px;top:10%;left:4%"></div>
+<div class="deco-eye" style="width:38px;height:38px;top:22%;right:6%"></div>
+<div class="deco-eye" style="width:48px;height:48px;bottom:12%;left:7%"></div>
+<div class="deco-eye" style="width:32px;height:32px;bottom:28%;right:4%"></div>
+<div class="deco-eye" style="width:42px;height:42px;top:55%;left:2%"></div>
+<div class="deco-eye" style="width:28px;height:28px;top:8%;right:15%"></div>
 
-<!-- MAIN -->
-<main class="relative z-10 pt-14 sm:pt-20 pb-8 px-4 sm:px-6">
+<!-- ═══════════ CONTENT ═══════════ -->
+<main class="relative z-10 pt-8 sm:pt-10 pb-4 px-4 sm:px-6">
 
-    <!-- Header -->
-    <div class="text-center mb-6 max-w-xl mx-auto">
-        <!-- Logo — mix-blend-mode removes white background -->
-        <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4" style="mix-blend-mode:multiply;">
-            <img src="logo.png" alt="Exodia.Media" class="w-full h-full object-contain">
+    <!-- Logo + text -->
+    <div class="text-center mb-5">
+        <div class="inline-block">
+            <img src="logo.png" alt="Exodia.Media" class="h-14 sm:h-18 w-auto mx-auto" style="filter:drop-shadow(0 3px 10px rgba(0,0,0,0.15))">
         </div>
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tighter leading-[1.05]"
-            style="text-shadow:0 2px 30px rgba(0,0,0,0.1);">
-            <span class="text-white">Visual Direction</span><br>
-            <span class="text-slate-950">Music Video Edits</span>
+        <div class="mt-2 flex items-center justify-center gap-2">
+            <span class="text-xs sm:text-sm font-bold tracking-tight" style="color:#14532d">EXODIA.MEDIA</span>
+            <span class="w-1 h-1 rounded-full" style="background:#14532d"></span>
+            <span class="text-[10px] sm:text-xs font-medium" style="color:rgba(20,83,45,0.6)">VIDEO FX PORTFOLIO</span>
+        </div>
+    </div>
+
+    <div class="text-center mb-4 max-w-xl mx-auto">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tighter leading-[1.08]" style="color:#052e16;text-shadow:0 1px 2px rgba(163,230,53,0.3);">
+            Visual Direction / Music Video Edits
         </h1>
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mt-3" style="background:rgba(2,6,23,0.78);backdrop-filter:blur(8px);">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mt-3" style="background:rgba(2,6,23,0.75);backdrop-filter:blur(8px);">
             <i data-lucide="flame" class="w-3.5 h-3.5 text-lime-400"></i>
-            <span class="text-xs sm:text-sm font-semibold text-white">Exodia FX Videos</span>
+            <span class="text-xs font-semibold text-white">Exodia FX Videos</span>
         </div>
-        <p class="text-[11px] sm:text-xs mt-2.5 max-w-xs mx-auto leading-relaxed" style="color:rgba(255,255,255,0.55);">
+        <p class="text-[11px] sm:text-xs mt-2 max-w-sm mx-auto leading-relaxed" style="color:#14532d">
             Moving filmstrip portfolio inspired by editorial studio presentation.
         </p>
     </div>
@@ -377,151 +352,138 @@
         <div class="film-scroll" id="filmStrip"></div>
     </div>
 
-    <!-- Player -->
-    <div class="player-section flex items-start justify-center gap-6 lg:gap-8 max-w-6xl mx-auto">
+    <!-- ═══ PLAYER ═══ -->
+    <div class="player-flex flex items-start justify-center gap-7 lg:gap-9 max-w-5xl mx-auto">
 
-        <!-- Chameleon -->
-        <div class="cham-wrap">
-            <div class="cham-glow"></div>
-            <div class="cham-body" id="chamBody">
-                <div class="cham-crest"></div>
-                <div class="cham-ridge"></div>
-                <div class="cham-spot s1"></div><div class="cham-spot s2"></div><div class="cham-spot s3"></div>
-                <div class="cham-spot s4"></div><div class="cham-spot s5"></div><div class="cham-spot s6"></div>
-                <div class="cham-spot s7"></div><div class="cham-spot s8"></div><div class="cham-spot s9"></div>
-
-                <!-- Tongue -->
-                <div class="cham-tongue"></div>
-
-                <!-- Antenna -->
-                <div class="cham-antenna"></div>
-
-                <!-- TV Screen -->
-                <div class="cham-tv" id="chamTV"
-                     onmouseenter="startPreview(selectedIndex)"
-                     onmouseleave="stopPreview()"
-                     onclick="openModal()">
-                    <img id="tvPoster" class="tv-poster" src="" alt="">
-                    <iframe id="tvPreview" class="tv-iframe" allow="autoplay;encrypted-media" allowfullscreen></iframe>
-                    <div class="tv-scanlines"></div>
-                    <div class="cham-tv-overlay" id="tvOverlay">
-                        <div class="cham-tv-play">
-                            <i data-lucide="play" class="w-6 h-6"></i>
+        <!-- Retro TV -->
+        <div class="tv-wrap">
+            <div class="tv-glow"></div>
+            <div class="tv-antenna-left"></div>
+            <div class="tv-antenna-right"></div>
+            <div class="tv-body">
+                <div class="tv-screen-bezel">
+                    <div class="tv-screen" id="tvScreen" onclick="openModal()">
+                        <img id="featImg" src="" alt="">
+                        <div class="tv-static"></div>
+                        <div class="tv-scanlines"></div>
+                        <div class="tv-curve"></div>
+                        <div class="tv-reflection"></div>
+                        <div class="tv-badge">EXODIA FX</div>
+                        <div class="tv-play-overlay">
+                            <div class="tv-play-btn"><i data-lucide="play" class="w-7 h-7"></i></div>
                         </div>
                     </div>
-                    <!-- Knobs -->
-                    <div class="tv-knob k1"></div>
-                    <div class="tv-knob k2"></div>
-                    <div class="tv-knob k3"></div>
-                    <div class="tv-label">exodia.tv</div>
                 </div>
-
-                <div class="cham-mouth"></div>
-                <div class="cham-leg fl"><div class="cham-toes"><div class="cham-toe"></div><div class="cham-toe"></div></div></div>
-                <div class="cham-leg fr"><div class="cham-toes"><div class="cham-toe"></div><div class="cham-toe"></div></div></div>
-                <div class="cham-leg bl"><div class="cham-toes"><div class="cham-toe"></div><div class="cham-toe"></div></div></div>
-                <div class="cham-leg br"><div class="cham-toes"><div class="cham-toe"></div><div class="cham-toe"></div></div></div>
-            </div>
-
-            <!-- Eye -->
-            <div class="cham-eye-wrap">
-                <div class="cham-eye-socket">
-                    <div class="cham-eye-ball" id="chamEyeBall">
-                        <div class="cham-pupil" id="chamPupil"></div>
-                        <div class="cham-eye-shine"></div>
-                        <div class="cham-eye-shine-sm"></div>
-                    </div>
+                <div class="tv-side">
+                    <div class="tv-knob"></div>
+                    <div class="tv-knob-sm"></div>
+                    <div class="tv-knob-sm"></div>
                 </div>
+                <div class="tv-speaker"></div>
             </div>
-
-            <!-- Tail -->
-            <svg class="cham-tail" viewBox="0 0 120 140" fill="none">
-                <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#166534"/><stop offset="100%" stop-color="#052e16"/></linearGradient></defs>
-                <path d="M 15 130 Q 65 115, 85 70 Q 100 35, 75 15 Q 55 0, 45 20 Q 38 38, 58 40 Q 72 42, 70 25" stroke="url(#tg)" stroke-width="22" stroke-linecap="round" fill="none"/>
-                <path d="M 15 130 Q 65 115, 85 70 Q 100 35, 75 15 Q 55 0, 45 20 Q 38 38, 58 40 Q 72 42, 70 25" stroke="rgba(74,222,128,0.1)" stroke-width="26" stroke-linecap="round" fill="none" style="filter:blur(4px)"/>
-            </svg>
+            <div class="tv-feet">
+                <div class="tv-foot"></div>
+                <div class="tv-foot"></div>
+            </div>
         </div>
 
-        <!-- Playlist -->
-        <div class="playlist-container flex flex-col" style="max-width:400px;min-width:0;max-height:540px;">
-            <div class="flex items-center justify-between mb-2.5 px-1">
+        <!-- Playlist (auto-scroll) -->
+        <div class="pl-container flex flex-col" style="max-width:400px;min-width:0;height:380px;">
+            <div class="flex items-center justify-between mb-3 px-1 flex-shrink-0">
                 <div class="flex items-center gap-2">
-                    <span class="text-xs font-bold tracking-wider text-slate-950/60 uppercase">Exodia.Media</span>
-                    <span class="text-xs text-slate-950/30" id="plCounter">— 1 / 6</span>
+                    <i data-lucide="list-video" class="w-4 h-4" style="color:#14532d"></i>
+                    <span class="text-sm font-bold" style="color:#14532d">EXODIA FX</span>
+                    <span class="text-[10px] font-medium px-1.5 py-0.5 rounded-full" style="background:rgba(20,83,45,0.1);color:#14532d" id="plCount">—</span>
                 </div>
-                <button onclick="shufflePlaylist()" class="text-[11px] font-medium flex items-center gap-1 transition-colors" style="color:rgba(15,23,42,0.3);" onmouseover="this.style.color='rgba(15,23,42,0.7)'" onmouseout="this.style.color='rgba(15,23,42,0.3)'">
+                <button onclick="shufflePlaylist()" class="text-[11px] font-semibold flex items-center gap-1 transition-all" style="color:rgba(20,83,45,0.5)" onmouseover="this.style.color='#052e16'" onmouseout="this.style.color='rgba(20,83,45,0.5)'">
                     <i data-lucide="shuffle" class="w-3 h-3"></i> Shuffle
                 </button>
             </div>
-            <div class="playlist-scroll" id="playlistScroll"></div>
+            <div class="pl-auto-scroll" id="plScrollWrap">
+                <div class="pl-track" id="plTrack">
+                    <!-- JS renders items ×2 for seamless loop -->
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-10 max-w-xl mx-auto">
-        <a href="https://exodia.media/" target="_blank" class="action-btn action-btn-lime">
-            <i data-lucide="rocket" class="w-4 h-4"></i> Hire Us
-        </a>
-        <button onclick="openQuoteModal()" class="action-btn action-btn-primary">
-            <i data-lucide="file-text" class="w-4 h-4"></i> Send a Quote
-        </button>
-        <a href="https://www.instagram.com/exodia.media" target="_blank" class="action-btn action-btn-outline">
-            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
-        </a>
     </div>
 </main>
 
-<!-- Footer -->
-<footer class="relative z-10 text-center pb-8 px-6">
-    <p class="text-[9px] tracking-[0.2em] uppercase font-medium" style="color:rgba(15,23,42,0.2);">Exodia.Media — Every Pixel Intentional</p>
-</footer>
+<!-- ═══ BUTTONS ═══ -->
+<section class="relative z-10 pb-14 pt-4">
+    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-4">
+        <a href="https://exodia.media/" target="_blank" class="action-btn bg-slate-950 text-white hover:bg-slate-800" style="box-shadow:0 8px 30px rgba(0,0,0,0.25)">
+            <i data-lucide="briefcase" class="w-4 h-4 text-lime-400"></i> Hire Us
+        </a>
+        <button onclick="openQuote()" class="action-btn text-slate-950 hover:brightness-110" style="background:#a3e635;box-shadow:0 8px 30px rgba(163,230,53,0.3)">
+            <i data-lucide="file-text" class="w-4 h-4"></i> Send a Quote
+        </button>
+        <a href="https://www.instagram.com/exodia.media" target="_blank" class="action-btn text-white hover:opacity-90" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);box-shadow:0 8px 30px rgba(131,58,180,0.25)">
+            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
+        </a>
+    </div>
+    <p class="text-center mt-5 text-[10px] tracking-[0.2em] uppercase font-medium" style="color:#14532d">
+        Exodia.Media — Every Pixel Intentional
+    </p>
+</section>
 
 <!-- ═══ YOUTUBE MODAL ═══ -->
-<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
-<div class="modal-content" id="modalContent">
-    <button class="modal-close" onclick="closeModal()"><i data-lucide="x" class="w-4 h-4 text-slate-400"></i></button>
-    <div class="rounded-2xl overflow-hidden" style="background:rgba(2,6,23,0.96);border:1px solid rgba(255,255,255,0.06);box-shadow:0 30px 90px rgba(0,0,0,0.55);">
+<div class="modal-bg" id="vidBg" onclick="closeModal()"></div>
+<div class="modal-box" id="vidBox">
+    <button class="modal-x" onclick="closeModal()"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button>
+    <div class="rounded-2xl overflow-hidden" style="background:rgba(2,6,23,0.96);border:1px solid rgba(255,255,255,0.05);box-shadow:0 30px 80px rgba(0,0,0,0.5)">
         <div class="aspect-video bg-black">
-            <iframe id="ytIframe" class="w-full h-full" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
+            <iframe id="ytFrame" class="w-full h-full" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="p-5 sm:p-6">
-            <h3 class="text-base sm:text-lg font-semibold" id="modalTitle">—</h3>
-            <p class="text-sm text-slate-400 mt-1" id="modalSub">—</p>
-            <div class="flex flex-wrap gap-4 mt-3 text-xs text-slate-500">
-                <span class="flex items-center gap-1"><i data-lucide="tv" class="w-3 h-3"></i> Exodia FX</span>
-                <span class="flex items-center gap-1"><i data-lucide="globe" class="w-3 h-3"></i> youtube.com</span>
+            <h3 class="text-base sm:text-lg font-semibold" id="mTitle">—</h3>
+            <p class="text-sm text-slate-400 mt-1" id="mSub">—</p>
+            <div class="flex gap-4 mt-3 text-xs text-slate-500">
+                <span class="flex items-center gap-1"><i data-lucide="tv" class="w-3 h-3 text-lime-500/60"></i> Exodia FX</span>
+                <span class="flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> youtube.com</span>
             </div>
         </div>
     </div>
 </div>
 
 <!-- ═══ QUOTE MODAL ═══ -->
-<div class="quote-modal" id="quoteModal">
-    <div class="quote-backdrop" onclick="closeQuoteModal()"></div>
-    <div class="quote-box">
-        <button onclick="closeQuoteModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.3);transition:color .2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">
-            <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-        <div class="flex items-center gap-3 mb-5">
-            <div class="w-8 h-8 rounded-lg bg-lime-500/15 flex items-center justify-center">
-                <i data-lucide="file-text" class="w-4 h-4 text-lime-400"></i>
-            </div>
+<div class="quote-bg" id="quoteBg" onclick="closeQuote()"></div>
+<div class="quote-box" id="quoteBox">
+    <button class="modal-x" onclick="closeQuote()"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button>
+    <div class="rounded-2xl p-6 sm:p-8" style="background:rgba(2,6,23,0.96);border:1px solid rgba(255,255,255,0.06);box-shadow:0 30px 80px rgba(0,0,0,0.5)">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-lime-500/10 flex items-center justify-center"><i data-lucide="file-text" class="w-5 h-5 text-lime-400"></i></div>
             <div>
-                <h3 class="text-base font-bold">Send a Quote</h3>
-                <p class="text-[11px] text-slate-500">We'll get back within 24 hours</p>
+                <h3 class="text-lg font-bold">Send a Quote</h3>
+                <p class="text-xs text-slate-500">We'll get back to you within 24h</p>
             </div>
         </div>
-        <form action="https://formsubmit.co/information.exodia@gmail.com" method="POST">
+        <form action="https://formsubmit.co/information.exodia@gmail.com" method="POST" id="quoteForm">
             <input type="hidden" name="_subject" value="New Quote Request — Exodia.Media">
-            <input type="hidden" name="_captcha" value="false">
             <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_next" id="formRedirect">
-            <input class="quote-input" type="text" name="name" placeholder="Your name" required>
-            <input class="quote-input" type="email" name="email" placeholder="Email address" required>
-            <input class="quote-input" type="tel" name="phone" placeholder="Phone number (optional)">
-            <textarea class="quote-input quote-textarea" name="request" placeholder="Describe your project or request..." rows="4" required></textarea>
-            <button type="submit" class="quote-submit">Send Request</button>
-            <p class="text-center text-[10px] text-slate-600 mt-3">Sent directly to Exodia.Media team</p>
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
+            <div class="flex flex-col gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Name</label>
+                    <input type="text" name="name" required placeholder="Your full name" class="quote-input">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Email</label>
+                    <input type="email" name="email" required placeholder="you@example.com" class="quote-input">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Phone</label>
+                    <input type="tel" name="phone" placeholder="+1 (555) 000-0000" class="quote-input">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Your Request</label>
+                    <textarea name="request" required rows="4" placeholder="Tell us about your project — type of video, style, deadline, budget range..." class="quote-input resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-lime-500 text-slate-950 font-bold text-sm hover:bg-lime-400 transition-all hover:shadow-lg hover:shadow-lime-500/20 active:scale-[0.98]">
+                    Send Quote Request
+                </button>
+                <p class="text-[10px] text-center text-slate-600">Delivered to information.exodia@gmail.com</p>
+            </div>
         </form>
     </div>
 </div>
@@ -529,201 +491,121 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════
-// YOUR 6 VIDEOS
-// ═══════════════════════════════════════
 const videos=[
-    {title:"Exodia FX — Reel 01",subtitle:"Visual direction & music video edit",youtubeId:"U6B3c6Jl40k"},
-    {title:"Exodia FX — Reel 02",subtitle:"Visual direction & music video edit",youtubeId:"SRfLLCofI4Y"},
-    {title:"Exodia FX — Reel 03",subtitle:"Visual direction & music video edit",youtubeId:"NRe9i5Ety6Y"},
-    {title:"Exodia FX — Reel 04",subtitle:"Visual direction & music video edit",youtubeId:"Uh3pLYM27Pc"},
-    {title:"Exodia FX — Reel 05",subtitle:"Visual direction & music video edit",youtubeId:"mYbYIrgRe9M"},
-    {title:"Exodia FX — Reel 06",subtitle:"Visual direction & music video edit",youtubeId:"YUolkdzYtxw"}
+    {title:"Exodia FX — Reel 01",sub:"Visual direction & music video edit",id:"U6B3c6Jl40k"},
+    {title:"Exodia FX — Reel 02",sub:"Visual direction & music video edit",id:"SRfLLCofI4Y"},
+    {title:"Exodia FX — Reel 03",sub:"Visual direction & music video edit",id:"NRe9i5Ety6Y"},
+    {title:"Exodia FX — Reel 04",sub:"Visual direction & music video edit",id:"Uh3pLYM27Pc"},
+    {title:"Exodia FX — Reel 05",sub:"Visual direction & music video edit",id:"mYbYIrgRe9M"},
+    {title:"Exodia FX — Reel 06",sub:"Visual direction & music video edit",id:"YUolkdzYtxw"}
 ];
 
-let selectedIndex=0;
-let previewTimeout=null;
-let isPreviewing=false;
+let cur=0;
+const th=id=>`https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
-// Set form redirect to current page
-document.getElementById('formRedirect').value=window.location.href.split('?')[0]+'?sent=1';
-
-// Check if just sent
-if(window.location.search.includes('sent=1')){
-    setTimeout(()=>showToast('Quote sent! We\'ll be in touch soon ✨'),800);
-    window.history.replaceState({},'',window.location.pathname);
-}
-
-function thumb(id){return`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
-
-// Auto-fetch real titles from YouTube
+// Auto-fetch titles
 async function fetchInfo(id,i){
     try{
         const r=await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
         const d=await r.json();
-        if(d.title){videos[i].title=d.title;videos[i].subtitle=d.author_name||''}
-        if(i===0&&!window._fetched){window._fetched=true;renderPlaylist();selectVideo(0)}
+        if(d.title){videos[i].title=d.title;videos[i].sub=d.author_name||''}
+        if(i===0&&!window._f){window._f=true;buildPL();sel(0)}
     }catch(e){}
 }
 
-// ═══ RENDER PLAYLIST ═══
-function renderPlaylist(){
-    const c=document.getElementById('playlistScroll');c.innerHTML='';
-    updateCounter();
-    videos.forEach((v,i)=>{
-        const el=document.createElement('div');
-        el.className=`playlist-item${i===selectedIndex?' active':''}`;
-        el.style.animationDelay=`${i*0.06}s`;
-        el.onclick=()=>{selectVideo(i);openModal()};
-        el.addEventListener('mouseenter',()=>startPreview(i));
-        el.addEventListener('mouseleave',()=>stopPreview());
-        el.innerHTML=`
-            <div class="pl-thumb">
-                <img src="${thumb(v.youtubeId)}" alt="${v.title}" loading="lazy">
-                <div class="pl-playing-indicator"><div class="pl-bars"><div class="pl-bar"></div><div class="pl-bar"></div><div class="pl-bar"></div><div class="pl-bar"></div></div></div>
-            </div>
-            <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;">
-                <div style="font-size:13px;font-weight:500;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3">${v.title}</div>
-                <div style="font-size:11px;color:#94a3b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.subtitle}</div>
-                <div style="font-size:10px;color:#64748b;margin-top:3px">Exodia.Media</div>
-            </div>`;
-        c.appendChild(el);
+// Build one playlist item HTML
+function plItemHTML(v,i){
+    return `<div class="pl-item${i===cur?' active':''}" onclick="sel(${i%videos.length})">
+        <div class="pl-thumb">
+            <img src="${th(v.id)}" alt="${v.title}" loading="lazy">
+            <div class="pl-num">${(i%videos.length)+1}</div>
+        </div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3">${v.title}</div>
+            <div style="font-size:11px;color:#94a3b8;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.sub}</div>
+        </div>
+    </div>`;
+}
+
+// Build playlist with duplicated items for seamless scroll
+function buildPL(){
+    const track=document.getElementById('plTrack');
+    // Duplicate the list 4x for seamless infinite scroll
+    let html='';
+    for(let r=0;r<4;r++){
+        videos.forEach((v,i)=>{html+=plItemHTML(v,i)});
+    }
+    track.innerHTML=html;
+    document.getElementById('plCount').textContent=videos.length+' videos';
+
+    // Calculate scroll distance (one full set)
+    requestAnimationFrame(()=>{
+        const items=track.querySelectorAll('.pl-item');
+        if(items.length>0){
+            const oneSetH=items[0].offsetHeight+8; // 8px gap
+            const totalOneSet=oneSetH*videos.length;
+            track.style.setProperty('--scroll-dist',`-${totalOneSet}px`);
+            track.style.setProperty('--scroll-dur',`${totalOneSet*40}ms`); // 40ms per px = slow smooth scroll
+        }
     });
 }
 
-function updateCounter(){
-    document.getElementById('plCounter').textContent=`— ${selectedIndex+1} / ${videos.length}`;
-}
-
-// ═══ SELECT VIDEO ═══
-function selectVideo(i){
-    selectedIndex=i;
-    document.getElementById('tvPoster').src=thumb(videos[i].youtubeId);
-    document.querySelectorAll('.playlist-item').forEach((el,j)=>{
-        el.classList.remove('active','previewing');
-        if(j===i)el.classList.add('active');
+function sel(i){
+    cur=i%videos.length;
+    document.getElementById('featImg').src=th(videos[cur].id);
+    // Update all active states (4 duplicates)
+    document.querySelectorAll('.pl-item').forEach((el,j)=>{
+        el.classList.toggle('active',(j%videos.length)===cur);
     });
-    updateCounter();
-    const a=document.querySelectorAll('.playlist-item')[i];
-    if(a)a.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// ═══ HOVER PREVIEW (3 SEC) ═══
-function startPreview(index){
-    clearTimeout(previewTimeout);
-    isPreviewing=true;
-    const v=videos[index];
-    const poster=document.getElementById('tvPoster');
-    const iframe=document.getElementById('tvPreview');
-    const overlay=document.getElementById('tvOverlay');
-    const tv=document.getElementById('chamTV');
-    const pupil=document.getElementById('chamPupil');
-
-    poster.style.opacity='0';
-    iframe.style.opacity='1';
-    iframe.classList.add('active');
-    overlay.style.opacity='0';
-    tv.classList.add('playing');
-    pupil.classList.add('dilated');
-
-    // Highlight playlist item being previewed
-    document.querySelectorAll('.playlist-item').forEach((el,j)=>{
-        el.classList.remove('previewing');
-        if(j===index&&j!==selectedIndex)el.classList.add('previewing');
-    });
-
-    // Random start point for preview variety
-    const rs=Math.floor(Math.random()*25);
-    iframe.src=`https://www.youtube.com/embed/${v.youtubeId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&start=${rs}&end=${rs+4}&iv_load_policy=3&disablekb=1`;
-
-    previewTimeout=setTimeout(()=>stopPreview(),3500);
-}
-
-function stopPreview(){
-    clearTimeout(previewTimeout);
-    isPreviewing=false;
-    const poster=document.getElementById('tvPoster');
-    const iframe=document.getElementById('tvPreview');
-    const overlay=document.getElementById('tvOverlay');
-    const tv=document.getElementById('chamTV');
-    const pupil=document.getElementById('chamPupil');
-
-    poster.style.opacity='1';
-    iframe.style.opacity='0';
-    iframe.classList.remove('active');
-    overlay.style.opacity='1';
-    tv.classList.remove('playing');
-    pupil.classList.remove('dilated');
-
-    document.querySelectorAll('.playlist-item').forEach(el=>el.classList.remove('previewing'));
-
-    setTimeout(()=>{if(!isPreviewing)iframe.src=''},350);
-}
-
-// ═══ YOUTUBE MODAL ═══
 function openModal(){
-    stopPreview();
-    const v=videos[selectedIndex];
-    document.getElementById('ytIframe').src=`https://www.youtube.com/embed/${v.youtubeId}?autoplay=1&rel=0&modestbranding=1`;
-    document.getElementById('modalTitle').textContent=v.title;
-    document.getElementById('modalSub').textContent=v.subtitle;
-    document.getElementById('modalBackdrop').classList.add('open');
-    document.getElementById('modalContent').classList.add('open');
+    const v=videos[cur];
+    document.getElementById('ytFrame').src=`https://www.youtube.com/embed/${v.id}?autoplay=1&rel=0&modestbranding=1`;
+    document.getElementById('mTitle').textContent=v.title;
+    document.getElementById('mSub').textContent=v.sub;
+    document.getElementById('vidBg').classList.add('open');
+    document.getElementById('vidBox').classList.add('open');
     document.body.style.overflow='hidden';
 }
-
 function closeModal(){
-    document.getElementById('ytIframe').src='';
-    document.getElementById('modalBackdrop').classList.remove('open');
-    document.getElementById('modalContent').classList.remove('open');
+    document.getElementById('ytFrame').src='';
+    document.getElementById('vidBg').classList.remove('open');
+    document.getElementById('vidBox').classList.remove('open');
     document.body.style.overflow='';
 }
-
-// ═══ QUOTE MODAL ═══
-function openQuoteModal(){
-    document.getElementById('quoteModal').classList.add('open');
+function openQuote(){
+    document.getElementById('quoteBg').classList.add('open');
+    document.getElementById('quoteBox').classList.add('open');
     document.body.style.overflow='hidden';
 }
-function closeQuoteModal(){
-    document.getElementById('quoteModal').classList.remove('open');
+function closeQuote(){
+    document.getElementById('quoteBg').classList.remove('open');
+    document.getElementById('quoteBox').classList.remove('open');
     document.body.style.overflow='';
 }
-
-// ═══ SHUFFLE ═══
 function shufflePlaylist(){
     for(let i=videos.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[videos[i],videos[j]]=[videos[j],videos[i]]}
-    selectedIndex=0;renderPlaylist();selectVideo(0);showToast('Playlist shuffled 🎲');
+    cur=0;buildPL();sel(0);showToast('Playlist shuffled 🎲');
 }
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 
-// ═══ TOAST ═══
-function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
-
-// ═══ EYE TRACKING ═══
-document.addEventListener('mousemove',e=>{
-    const ball=document.getElementById('chamEyeBall'),pupil=document.getElementById('chamPupil');
-    if(!ball||!pupil)return;
-    const r=ball.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
-    const dx=e.clientX-cx,dy=e.clientY-cy,d=Math.sqrt(dx*dx+dy*dy),mx=9;
-    const px=(dx/Math.max(d,1))*Math.min(d*0.04,mx),py=(dy/Math.max(d,1))*Math.min(d*0.04,mx);
-    pupil.style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${py}px))`;
-});
-
-// ═══ FILM STRIP ═══
+// Film strip
 (function(){const s=document.getElementById('filmStrip');let h='';for(let r=0;r<2;r++)for(let i=0;i<40;i++)h+='<div class="film-frame"></div>';s.innerHTML=h})();
 
-// ═══ KEYBOARD ═══
+// Keyboard
 document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){closeModal();closeQuoteModal()}
-    if(!document.getElementById('modalBackdrop').classList.contains('open')&&!document.getElementById('quoteModal').classList.contains('open')){
-        if(e.key==='ArrowDown'){e.preventDefault();selectVideo((selectedIndex+1)%videos.length)}
-        if(e.key==='ArrowUp'){e.preventDefault();selectVideo((selectedIndex-1+videos.length)%videos.length)}
+    if(e.key==='Escape'){closeModal();closeQuote()}
+    if(!document.getElementById('vidBg').classList.contains('open')&&!document.getElementById('quoteBg').classList.contains('open')){
+        if(e.key==='ArrowDown'){e.preventDefault();sel((cur+1)%videos.length)}
+        if(e.key==='ArrowUp'){e.preventDefault();sel((cur-1+videos.length)%videos.length)}
         if(e.key==='Enter')openModal();
     }
 });
 
-// ═══ INIT ═══
-renderPlaylist();selectVideo(0);lucide.createIcons();
-videos.forEach((v,i)=>fetchInfo(v.youtubeId,i));
+// Init
+buildPL();sel(0);lucide.createIcons();
+videos.forEach((v,i)=>fetchInfo(v.id,i));
 </script>
 </body>
 </html>
