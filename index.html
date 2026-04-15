@@ -1,451 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Video Gallery</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  :root {
-    --bg: #0a0a0b;
-    --card: #141416;
-    --card-hover: #1a1a1e;
-    --border: rgba(255,255,255,0.06);
-    --fg: #f0f0f2;
-    --muted: #7a7a85;
-    --accent: #e8453c;
-    --accent-glow: rgba(232,69,60,0.15);
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exodia.Media — Video FX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            font-family:'Geist',sans-serif;
+            background:radial-gradient(ellipse at 50% 10%,#d9f99d 0%,#bef264 20%,#a3e635 45%,#84cc16 75%,#65a30d 100%);
+            color:#fff;overflow-x:hidden;min-height:100vh;
+        }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+        .vid-frame{
+            position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
+            border:4px solid rgba(20,83,45,0.3);
+            box-shadow:0 0 30px rgba(22,101,52,0.15),0 10px 40px rgba(0,0,0,0.12);
+            background:#000;cursor:pointer;
+            transition:border-color .3s,box-shadow .3s;
+            -webkit-user-select:none;user-select:none;
+        }
+        .vid-frame:hover{border-color:rgba(20,83,45,0.55);box-shadow:0 0 40px rgba(22,101,52,0.25),0 10px 40px rgba(0,0,0,0.18)}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--fg);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+        #ytPlayer{position:absolute;inset:0;z-index:0}
+        #ytPlayer iframe{width:100%!important;height:100%!important;border:0!important;pointer-events:none!important}
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -30%;
-    left: -10%;
-    width: 50vw;
-    height: 50vw;
-    background: radial-gradient(circle, rgba(232,69,60,0.04) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-  body::after {
-    content: '';
-    position: fixed;
-    bottom: -20%;
-    right: -10%;
-    width: 40vw;
-    height: 40vw;
-    background: radial-gradient(circle, rgba(255,180,60,0.03) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
+        .vid-poster{position:absolute;inset:0;z-index:2;transition:opacity .3s}
+        .vid-poster.hidden{opacity:0;pointer-events:none}
+        .vid-poster img{width:100%;height:100%;object-fit:cover;filter:brightness(0.65) saturate(1.1)}
+        .vid-play-ov{
+            position:absolute;inset:0;z-index:3;
+            display:flex;align-items:center;justify-content:center;
+            background:rgba(0,0,0,0.2);transition:background .3s;
+        }
+        .vid-frame:not(.playing) .vid-play-ov:hover{background:rgba(0,0,0,0.1)}
+        .vid-play-btn{
+            width:76px;height:76px;border-radius:50%;background:rgba(163,230,53,0.9);
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 0 35px rgba(163,230,53,0.4);transition:transform .3s,box-shadow .3s,opacity .3s;
+        }
+        .vid-frame:not(.playing) .vid-play-ov:hover .vid-play-btn{transform:scale(1.1);box-shadow:0 0 50px rgba(163,230,53,0.6)}
+        .vid-play-btn svg{color:#052e16}
 
-  header {
-    position: relative;
-    z-index: 1;
-    padding: 2rem 2rem 0;
-    text-align: center;
-  }
+        .vid-frame.playing .vid-play-ov{background:transparent}
+        .vid-frame.playing .vid-play-btn{opacity:0;transform:scale(.7)}
+        .vid-frame.playing .vid-play-ov:hover{background:rgba(0,0,0,0.15)}
+        .vid-frame.playing .vid-play-ov:hover .vid-play-btn{opacity:.9;transform:scale(1.1);box-shadow:0 0 35px rgba(163,230,53,0.3)}
 
-  header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 0.5rem;
-  }
+        .vid-badge{
+            position:absolute;top:12px;right:12px;z-index:4;
+            background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);
+            padding:3px 10px;border-radius:6px;
+            font-size:10px;font-weight:700;color:#a3e635;letter-spacing:.08em;text-transform:uppercase;
+            pointer-events:none;
+        }
+        .vid-now{
+            position:absolute;bottom:12px;left:12px;z-index:4;
+            display:flex;align-items:center;gap:6px;
+            background:rgba(0,0,0,0.6);backdrop-filter:blur(6px);
+            padding:4px 10px;border-radius:6px;
+            pointer-events:none;
+        }
+        .vid-now-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:blink 1.2s ease-in-out infinite}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+        .vid-now span{font-size:10px;font-weight:600;color:#fff}
 
-  header p {
-    color: var(--muted);
-    font-size: 1rem;
-    font-weight: 300;
-  }
+        .pl-wrap{
+            flex:1;overflow:hidden;position:relative;min-width:0;
+            mask-image:linear-gradient(to bottom,transparent 0%,black 6%,black 94%,transparent 100%);
+            -webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 6%,black 94%,transparent 100%);
+        }
+        .pl-track{display:flex;flex-direction:column;gap:6px;animation:autoScroll var(--dur) linear infinite}
+        @keyframes autoScroll{0%{transform:translateY(0)}100%{transform:translateY(var(--dist))}}
+        .pl-item{
+            display:flex;gap:10px;padding:8px 10px;border-radius:12px;cursor:pointer;
+            transition:background .2s,transform .2s;border-left:3px solid transparent;flex-shrink:0;
+            background:rgba(2,6,23,0.65);backdrop-filter:blur(4px);
+        }
+        .pl-item:hover{background:rgba(2,6,23,0.85)!important;transform:translateX(3px)}
+        .pl-item.active{border-left-color:#a3e635;background:rgba(2,6,23,0.88)!important}
+        .pl-thumb{position:relative;width:100px;height:56px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#0f172a}
+        .pl-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+        .pl-item:hover .pl-thumb img{transform:scale(1.1)}
+        .pl-num{
+            position:absolute;top:3px;left:3px;background:rgba(0,0,0,0.6);
+            width:18px;height:18px;border-radius:4px;
+            display:flex;align-items:center;justify-content:center;
+            font-size:9px;font-weight:700;color:#a3e635;
+        }
 
-  main {
-    position: relative;
-    z-index: 1;
-    max-width: 1100px;
-    margin: 2.5rem auto;
-    padding: 0 1.5rem 4rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
+        .q-bg{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.88);backdrop-filter:blur(16px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+        .q-bg.open{opacity:1;visibility:visible}
+        .q-box{position:fixed;z-index:201;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:92%;max-width:460px;opacity:0;visibility:hidden;transition:opacity .3s ease,transform .3s ease,visibility .3s}
+        .q-box.open{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+        .q-x{position:absolute;top:-14px;right:-14px;width:40px;height:40px;border-radius:50%;background:rgba(15,23,42,0.95);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;transition:all .2s}
+        .q-x:hover{background:rgba(30,41,59,1);transform:scale(1.1)}
+        .q-input{width:100%;padding:12px 16px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:#fff;font-family:'Geist',sans-serif;font-size:14px;transition:border-color .2s,background .2s;outline:none}
+        .q-input:focus{border-color:rgba(163,230,53,0.5);background:rgba(255,255,255,0.1)}
+        .q-input::placeholder{color:#64748b}
 
-  .video-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  }
+        .abtn{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;border-radius:100px;font-size:13px;font-weight:600;transition:all .25s;cursor:pointer;border:none;text-decoration:none}
+        .abtn:hover{transform:translateY(-2px)}.abtn:active{transform:translateY(0)}
 
-  .video-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255,255,255,0.1);
-    box-shadow: 0 20px 60px -15px rgba(0,0,0,0.5);
-  }
+        @keyframes scrollFilm{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .film-scroll{display:flex;gap:8px;animation:scrollFilm 28s linear infinite}
+        .film-frame{width:44px;height:28px;border-radius:4px;flex-shrink:0;background:rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.04)}
 
-  .video-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    cursor: pointer;
-    overflow: hidden;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
+        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(2,6,23,0.94);color:#fff;padding:12px 28px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;z-index:300;transition:opacity .3s,transform .3s;box-shadow:0 8px 30px rgba(0,0,0,0.3);border:1px solid rgba(163,230,53,0.15);backdrop-filter:blur(8px)}
+        .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  .video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    pointer-events: none;
-  }
-
-  .video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    cursor: pointer;
-    transition: background 0.25s ease;
-  }
-
-  .video-overlay:hover {
-    background: rgba(0,0,0,0.08);
-  }
-
-  .play-btn {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.95;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-    box-shadow: 0 4px 24px rgba(232,69,60,0.4);
-    pointer-events: none;
-  }
-
-  .play-btn i {
-    color: #fff;
-    font-size: 1.2rem;
-    margin-left: 3px;
-    transition: margin 0.2s ease;
-  }
-
-  .video-overlay:hover .play-btn {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-
-  .video-wrapper.playing .play-btn {
-    opacity: 0;
-    transform: scale(0.7);
-    transition: all 0.3s ease;
-  }
-
-  .video-wrapper.playing .video-overlay:hover {
-    background: rgba(0,0,0,0.15);
-  }
-
-  /* Show a subtle pause icon when hovering a playing video */
-  .video-wrapper.playing .play-btn {
-    opacity: 0;
-  }
-  .video-wrapper.playing .video-overlay:hover .play-btn {
-    opacity: 0.9;
-    transform: scale(1.1);
-  }
-  .video-wrapper.playing .play-btn i {
-    margin-left: 0;
-  }
-
-  .video-wrapper::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.3));
-    z-index: 5;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .video-wrapper:not(.playing)::after {
-    opacity: 1;
-  }
-
-  .video-info {
-    padding: 1rem 1.2rem 1.2rem;
-  }
-
-  .video-info h3 {
-    font-size: 0.95rem;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 0.35rem;
-    color: var(--fg);
-    cursor: default;
-  }
-
-  .video-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--muted);
-    font-size: 0.8rem;
-    font-weight: 300;
-  }
-
-  .video-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .toast {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(120px);
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 0.75rem 1.5rem;
-    border-radius: 10px;
-    font-size: 0.85rem;
-    z-index: 9999;
-    opacity: 0;
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
-    pointer-events: none;
-    white-space: nowrap;
-  }
-
-  .toast.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
-
-  @media (max-width: 700px) {
-    main {
-      grid-template-columns: 1fr;
-      padding: 0 1rem 3rem;
-    }
-    header { padding: 1.5rem 1rem 0; }
-  }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .video-card {
-    animation: cardIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
-  }
-  .video-card:nth-child(2) { animation-delay: 0.08s; }
-  .video-card:nth-child(3) { animation-delay: 0.16s; }
-  .video-card:nth-child(4) { animation-delay: 0.24s; }
-  .video-card:nth-child(5) { animation-delay: 0.32s; }
-  .video-card:nth-child(6) { animation-delay: 0.40s; }
-</style>
+        @media(max-width:900px){
+            .pgrid{flex-direction:column!important}
+            .vid-col{width:100%!important}
+            .pl-col{width:100%!important;height:240px!important}
+        }
+        @media(max-width:500px){
+            .pl-thumb{width:75px;height:42px}
+            .pl-num{width:15px;height:15px;font-size:8px}
+        }
+        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+    </style>
 </head>
 <body>
 
-<header>
-  <h1>Video Library</h1>
-  <p>Watch exclusive content — available only here</p>
-</header>
+<main class="relative z-10 pt-6 sm:pt-8 pb-3 px-4 sm:px-6">
 
-<main id="gallery"></main>
+    <div class="text-center mb-4">
+        <img src="logo.png" alt="Exodia.Media" class="h-12 sm:h-14 w-auto mx-auto" style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.12))">
+        <div class="mt-1.5 flex items-center justify-center gap-2">
+            <span class="text-[11px] sm:text-xs font-bold tracking-tight" style="color:#14532d">EXODIA.MEDIA</span>
+            <span class="w-1 h-1 rounded-full" style="background:#14532d"></span>
+            <span class="text-[9px] sm:text-[10px] font-medium" style="color:rgba(20,83,45,0.55)">VIDEO FX PORTFOLIO</span>
+        </div>
+    </div>
+
+    <div class="text-center mb-3 max-w-lg mx-auto">
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tighter leading-tight" style="color:#052e16">
+            Visual Direction / Music Video Edits
+        </h1>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full mt-2" style="background:rgba(2,6,23,0.7);backdrop-filter:blur(6px)">
+            <i data-lucide="flame" class="w-3 h-3 text-lime-400"></i>
+            <span class="text-[11px] font-semibold text-white">Exodia FX Videos</span>
+        </div>
+        <p class="text-[10px] sm:text-[11px] mt-1.5" style="color:#14532d">Moving filmstrip portfolio inspired by editorial studio presentation.</p>
+    </div>
+
+    <div class="overflow-hidden py-2 mb-4 relative z-10 opacity-20">
+        <div class="film-scroll" id="filmStrip"></div>
+    </div>
+
+    <div class="pgrid flex items-stretch justify-center gap-5 max-w-6xl mx-auto">
+
+        <div class="vid-col" style="width:68%;flex-shrink:0">
+            <div class="vid-frame" id="vidFrame" onclick="togglePlay()">
+                <div id="ytPlayer"></div>
+                <div class="vid-poster" id="vidPoster">
+                    <img id="featImg" src="" alt="">
+                </div>
+                <div class="vid-play-ov" id="vidPlayOv">
+                    <div class="vid-play-btn">
+                        <i data-lucide="play" class="w-8 h-8" id="iconPlay" style="margin-left:3px"></i>
+                        <i data-lucide="pause" class="w-8 h-8" id="iconPause" style="display:none"></i>
+                    </div>
+                </div>
+                <div class="vid-badge">EXODIA FX</div>
+                <div class="vid-now" id="vidNow" style="display:none"><div class="vid-now-dot"></div><span>NOW PLAYING</span></div>
+            </div>
+            <div class="flex items-center gap-3 mt-2.5 px-1">
+                <span class="text-[11px] font-semibold" style="color:#052e16" id="featTitle">—</span>
+                <span class="text-[10px]" style="color:rgba(20,83,45,0.5)" id="featSub">—</span>
+            </div>
+        </div>
+
+        <div class="pl-col flex flex-col" style="width:32%;height:360px">
+            <div class="flex items-center justify-between mb-2 px-1 flex-shrink:0">
+                <div class="flex items-center gap-1.5">
+                    <i data-lucide="list-video" class="w-3.5 h-3.5" style="color:#14532d"></i>
+                    <span class="text-[11px] font-bold" style="color:#14532d">PLAYLIST</span>
+                    <span class="text-[9px] font-semibold px-1.5 py-0.5 rounded-full" style="background:rgba(20,83,45,0.08);color:#14532d" id="plCount">—</span>
+                </div>
+                <button onclick="shufflePlaylist()" class="text-[10px] font-semibold flex items-center gap-1" style="color:rgba(20,83,45,0.45)" onmouseover="this.style.color='#052e16'" onmouseout="this.style.color='rgba(20,83,45,0.45)'">
+                    <i data-lucide="shuffle" class="w-2.5 h-2.5"></i> Shuffle
+                </button>
+            </div>
+            <div class="pl-wrap" id="plWrap">
+                <div class="pl-track" id="plTrack"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<section class="relative z-10 pb-10 pt-3">
+    <div class="flex flex-wrap items-center justify-center gap-2.5 px-4">
+        <a href="https://exodia.media/" target="_blank" class="abtn bg-slate-950 text-white hover:bg-slate-800" style="box-shadow:0 6px 24px rgba(0,0,0,0.2)">
+            <i data-lucide="briefcase" class="w-3.5 h-3.5 text-lime-400"></i> Hire Us
+        </a>
+        <button onclick="openQuote()" class="abtn text-slate-950 hover:brightness-110" style="background:#a3e635;box-shadow:0 6px 24px rgba(163,230,53,0.25)">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Send a Quote
+        </button>
+        <a href="https://www.instagram.com/exodia.media" target="_blank" class="abtn text-white hover:opacity-90" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);box-shadow:0 6px 24px rgba(131,58,180,0.2)">
+            <i data-lucide="instagram" class="w-3.5 h-3.5"></i> Instagram
+        </a>
+    </div>
+    <p class="text-center mt-4 text-[9px] tracking-[0.18em] uppercase font-medium" style="color:#14532d">Exodia.Media — Every Pixel Intentional</p>
+</section>
+
+<div class="q-bg" id="qBg" onclick="closeQuote()"></div>
+<div class="q-box" id="qBox">
+    <button class="q-x" onclick="closeQuote()"><i data-lucide="x" class="w-5 h-5 text-slate-400"></i></button>
+    <div class="rounded-2xl p-6 sm:p-8" style="background:rgba(2,6,23,0.96);border:1px solid rgba(255,255,255,0.06);box-shadow:0 30px 80px rgba(0,0,0,0.5)">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl bg-lime-500/10 flex items-center justify-center"><i data-lucide="file-text" class="w-4 h-4 text-lime-400"></i></div>
+            <div><h3 class="text-base font-bold">Send a Quote</h3><p class="text-[11px] text-slate-500">We'll get back within 24h</p></div>
+        </div>
+        <form action="https://formsubmit.co/information.exodia@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Quote Request — Exodia.Media">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
+            <div class="flex flex-col gap-3">
+                <input type="text" name="name" required placeholder="Name" class="q-input">
+                <input type="email" name="email" required placeholder="Email" class="q-input">
+                <input type="tel" name="phone" placeholder="Phone" class="q-input">
+                <textarea name="request" required rows="3" placeholder="Your project request..." class="q-input resize-none"></textarea>
+                <button type="submit" class="w-full py-3 rounded-xl bg-lime-500 text-slate-950 font-bold text-sm hover:bg-lime-400 transition-all active:scale-[0.98]">Send Quote Request</button>
+                <p class="text-[9px] text-center text-slate-600">→ information.exodia@gmail.com</p>
+            </div>
+        </form>
+    </div>
+</div>
 
 <div class="toast" id="toast"></div>
 
-<!-- YouTube IFrame API (loaded once) -->
-<script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
-  const videos = [
-    {
-      id: 'dQw4w9WgXcQ',
-      title: 'Getting Started with the Platform',
-      duration: '4:32',
-      views: '1.2K views'
-    },
-    {
-      id: 'jNQXAC9IVRw',
-      title: 'Advanced Techniques Deep Dive',
-      duration: '12:08',
-      views: '890 views'
-    },
-    {
-      id: '9bZkp7q19f0',
-      title: 'Behind the Scenes Workflow',
-      duration: '7:45',
-      views: '2.1K views'
-    },
-    {
-      id: 'kJQP7kiw5Fk',
-      title: 'Tips for Better Results',
-      duration: '6:19',
-      views: '560 views'
-    },
-    {
-      id: 'RgKAFK5djSk',
-      title: 'Full Project Walkthrough',
-      duration: '18:33',
-      views: '3.4K views'
-    },
-    {
-      id: 'OPf0YbXqDm0',
-      title: 'Q&A Session Highlights',
-      duration: '9:50',
-      views: '1.8K views'
-    }
-  ];
+const V=[
+    {t:"Exodia FX — Reel 01",s:"Visual direction & music video edit",id:"U6B3c6Jl40k"},
+    {t:"Exodia FX — Reel 02",s:"Visual direction & music video edit",id:"SRfLLCofI4Y"},
+    {t:"Exodia FX — Reel 03",s:"Visual direction & music video edit",id:"NRe9i5Ety6Y"},
+    {t:"Exodia FX — Reel 04",s:"Visual direction & music video edit",id:"Uh3pLYM27Pc"},
+    {t:"Exodia FX — Reel 05",s:"Visual direction & music video edit",id:"mYbYIrgRe9M"},
+    {t:"Exodia FX — Reel 06",s:"Visual direction & music video edit",id:"YUolkdzYtxw"}
+];
+let cur=0,playing=false,player=null;
+const th=id=>`https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
-  const gallery = document.getElementById('gallery');
-  const toast = document.getElementById('toast');
-  const players = {};
-
-  // Build cards with placeholder divs for the API to replace
-  videos.forEach((video, index) => {
-    const card = document.createElement('div');
-    card.className = 'video-card';
-    card.innerHTML = `
-      <div class="video-wrapper" data-index="${index}">
-        <div id="player-${index}"></div>
-        <div class="video-overlay">
-          <div class="play-btn"><i class="fas fa-play"></i></div>
-        </div>
-      </div>
-      <div class="video-info">
-        <h3>${video.title}</h3>
-        <div class="video-meta">
-          <span><i class="far fa-clock"></i> ${video.duration}</span>
-          <span><i class="far fa-eye"></i> ${video.views}</span>
-        </div>
-      </div>
-    `;
-    gallery.appendChild(card);
-  });
-
-  // YouTube IFrame API ready callback
-  function onYouTubeIframeAPIReady() {
-    videos.forEach((video, index) => {
-      players[index] = new YT.Player(`player-${index}`, {
-        videoId: video.id,
-        host: 'https://www.youtube-nocookie.com',
-        playerVars: {
-          modestbranding: 1,
-          rel: 0,
-          showinfo: 0,
-          iv_load_policy: 3,
-          controls: 0,
-          fs: 0,
-          disablekb: 1,
-          playsinline: 1,
-          autoplay: 0,
-          cc_load_policy: 0,
-          annotation_control: 'none'
+function onYouTubeIframeAPIReady(){
+    player=new YT.Player('ytPlayer',{
+        width:'100%',height:'100%',
+        videoId:V[0].id,
+        host:'https://www.youtube-nocookie.com',
+        playerVars:{
+            autoplay:0,controls:0,fs:0,modestbranding:1,
+            rel:0,showinfo:0,iv_load_policy:3,
+            disablekb:1,playsinline:1,cc_load_policy:0
         },
-        events: {
-          onReady: (event) => {
-            // Once ready, ensure the iframe stays locked
-            const iframe = document.querySelector(`#player-${index} iframe`);
-            if (iframe) {
-              iframe.style.pointerEvents = 'none';
+        events:{
+            onReady:function(){
+                var ifr=document.querySelector('#ytPlayer iframe');
+                if(ifr) ifr.style.pointerEvents='none';
+            },
+            onStateChange:function(e){
+                var ip=document.getElementById('iconPlay');
+                var ia=document.getElementById('iconPause');
+                if(e.data===1){
+                    document.getElementById('vidFrame').classList.add('playing');
+                    document.getElementById('vidPoster').classList.add('hidden');
+                    document.getElementById('vidNow').style.display='flex';
+                    playing=true;
+                    if(ip)ip.style.display='none';
+                    if(ia)ia.style.display='block';
+                }else if(e.data===2){
+                    if(ip)ip.style.display='block';
+                    if(ia)ia.style.display='none';
+                }else if(e.data===0){
+                    document.getElementById('vidFrame').classList.remove('playing');
+                    document.getElementById('vidPoster').classList.remove('hidden');
+                    document.getElementById('vidNow').style.display='none';
+                    playing=false;
+                    if(ip)ip.style.display='block';
+                    if(ia)ia.style.display='none';
+                }
             }
-          },
-          onStateChange: (event) => {
-            const wrapper = document.querySelector(`.video-wrapper[data-index="${index}"]`);
-            const playIcon = wrapper.querySelector('.play-btn i');
-            // YT.PlayerState.PLAYING === 1, PAUSED === 2, ENDED === 0
-            if (event.data === 1) {
-              wrapper.classList.add('playing');
-              playIcon.className = 'fas fa-pause';
-            } else {
-              wrapper.classList.remove('playing');
-              playIcon.className = 'fas fa-play';
-            }
-          }
         }
-      });
     });
-  }
+}
 
-  // Click handler: toggle play/pause via API (never reloads, never enables pointer-events)
-  document.querySelectorAll('.video-overlay').forEach(overlay => {
-    overlay.addEventListener('click', (e) => {
-      const wrapper = overlay.closest('.video-wrapper');
-      const index = wrapper.dataset.index;
-      const player = players[index];
+async function fetchInfo(id,i){
+    try{
+        const r=await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`);
+        const d=await r.json();
+        if(d.title){V[i].t=d.title;V[i].s=d.author_name||''}
+        if(i===0&&!window._f){window._f=true;buildPL();sel(0)}
+    }catch(e){}
+}
 
-      if (!player || typeof player.getPlayerState !== 'function') return;
+function plHTML(v,i){
+    return `<div class="pl-item${i===cur?' active':''}" onclick="sel(${i%V.length});playVideo()">
+        <div class="pl-thumb"><img src="${th(v.id)}" alt="${v.t}" loading="lazy"><div class="pl-num">${(i%V.length)+1}</div></div>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center">
+            <div style="font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.t}</div>
+            <div style="font-size:10px;color:#94a3b8;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.s}</div>
+        </div>
+    </div>`;
+}
 
-      const state = player.getPlayerState();
-      // YT.PlayerState.PLAYING === 1, CUED === 5
-      if (state === 1) {
-        // Playing → pause (no reload, no restart)
+function buildPL(){
+    const t=document.getElementById('plTrack');let h='';
+    for(let r=0;r<5;r++)V.forEach((v,i)=>{h+=plHTML(v,i)});
+    t.innerHTML=h;
+    document.getElementById('plCount').textContent=V.length+' videos';
+    requestAnimationFrame(()=>{
+        const items=t.querySelectorAll('.pl-item');
+        if(items.length){
+            const oneH=items[0].offsetHeight+6;
+            t.style.setProperty('--dist',`-${oneH*V.length}px`);
+            t.style.setProperty('--dur',`${oneH*V.length*45}ms`);
+        }
+    });
+}
+
+function sel(i){
+    cur=i%V.length;
+    if(!playing) document.getElementById('featImg').src=th(V[cur].id);
+    document.getElementById('featTitle').textContent=V[cur].t;
+    document.getElementById('featSub').textContent=V[cur].s;
+    document.querySelectorAll('.pl-item').forEach((el,j)=>el.classList.toggle('active',(j%V.length)===cur));
+}
+
+function playVideo(){
+    if(!player||typeof player.loadVideoById!=='function') return;
+    player.loadVideoById(V[cur].id);
+    document.getElementById('vidPoster').classList.add('hidden');
+    document.getElementById('vidNow').style.display='flex';
+    document.getElementById('vidFrame').classList.add('playing');
+    playing=true;
+}
+
+function togglePlay(){
+    if(!player||typeof player.getPlayerState!=='function') return;
+    var s=player.getPlayerState();
+    if(s===1){
         player.pauseVideo();
-      } else {
-        // Paused / ended / cued → play
+    }else if(playing){
         player.playVideo();
-      }
-    });
-  });
-
-  // Block right-click on video areas
-  document.addEventListener('contextmenu', (e) => {
-    if (e.target.closest('.video-wrapper')) {
-      e.preventDefault();
-      showToast('Right-click is disabled on this video');
+    }else{
+        playVideo();
     }
-  });
+}
 
-  // Block drag
-  document.addEventListener('dragstart', (e) => {
-    if (e.target.closest('.video-wrapper')) {
-      e.preventDefault();
+function openQuote(){document.getElementById('qBg').classList.add('open');document.getElementById('qBox').classList.add('open');document.body.style.overflow='hidden'}
+function closeQuote(){document.getElementById('qBg').classList.remove('open');document.getElementById('qBox').classList.remove('open');document.body.style.overflow=''}
+function shufflePlaylist(){for(let i=V.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[V[i],V[j]]=[V[j],V[i]]}cur=0;buildPL();sel(0);showToast('Shuffled 🎲')}
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+
+(function(){const s=document.getElementById('filmStrip');let h='';for(let r=0;r<2;r++)for(let i=0;i<40;i++)h+='<div class="film-frame"></div>';s.innerHTML=h})();
+
+document.addEventListener('contextmenu',function(e){
+    if(e.target.closest('.vid-frame'))e.preventDefault();
+});
+document.addEventListener('dragstart',function(e){
+    if(e.target.closest('.vid-frame'))e.preventDefault();
+});
+
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeQuote();
+    if(!playing){
+        if(e.key==='ArrowDown'){e.preventDefault();sel((cur+1)%V.length)}
+        if(e.key==='ArrowUp'){e.preventDefault();sel((cur-1+V.length)%V.length)}
+        if(e.key==='Enter')playVideo();
     }
-  });
+});
 
-  // Toast helper
-  let toastTimer;
-  function showToast(msg) {
-    clearTimeout(toastTimer);
-    toast.textContent = msg;
-    toast.classList.add('show');
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
-  }
+buildPL();sel(0);lucide.createIcons();
+V.forEach((v,i)=>fetchInfo(v.id,i));
 </script>
 
 </body>
